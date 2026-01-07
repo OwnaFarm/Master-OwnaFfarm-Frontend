@@ -1,0 +1,223 @@
+{
+  "common": {
+    "backToHome": "返回首页",
+    "continue": "继续",
+    "back": "返回",
+    "submit": "提交",
+    "submitting": "提交中...",
+    "required": "必填",
+    "optional": "选填",
+    "language": "语言",
+    "settings": "设置"
+  },
+  "nav": {
+    "home": "首页",
+    "about": "关于",
+    "howItWorks": "运作方式",
+    "features": "功能",
+    "partners": "合作伙伴",
+    "settings": "设置"
+  },
+  "hero": {
+    "badge": "游戏化农业投资",
+    "title1": "玩耍、成长、",
+    "title2": "繁荣",
+    "description": "通过我们的游戏化平台投资真实农场。观察您的投资与实际作物一起成长，并获得经过验证的收成收益。",
+    "launchGame": "启动游戏",
+    "registerFarm": "注册农场",
+    "apy": "年化收益",
+    "farmers": "农民"
+  },
+  "stats": {
+    "totalInvested": "总投资额",
+    "activeFarms": "活跃农场",
+    "harvestCompleted": "已完成收获",
+    "investorReturns": "投资者回报"
+  },
+  "about": {
+    "title": "关于 OwnaFarm",
+    "subtitle": "通过技术连接投资者与农民",
+    "description": "OwnaFarm 是一个创新的农业投资平台，将全球投资者与印度尼西亚农民联系起来。我们的平台使用区块链技术确保透明度，并通过游戏化机制提高参与度。",
+    "forInvestors": "投资者专区",
+    "forInvestorsDesc": "投资真实农场，监控生长，从经过验证的收成中获得收益。",
+    "forFarmers": "农民专区",
+    "forFarmersDesc": "获得资金、承购商合同和农场实时监控工具。"
+  },
+  "howItWorks": {
+    "title": "流程",
+    "subtitle": "运作方式",
+    "step1Title": "创建账户",
+    "step1Desc": "使用 Privy 轻松注册 - 无需复杂的钱包设置。",
+    "step2Title": "浏览农场",
+    "step2Desc": "探索经过验证的农场，选择符合您投资目标的作物。",
+    "step3Title": "投资与游戏",
+    "step3Desc": "为您选择的农场提供资金，通过游戏化界面观看其成长。",
+    "step4Title": "获得收益",
+    "step4Desc": "当作物收获并交付给承购商时，获得您的回报。",
+    "farmerStep1Title": "注册与验证",
+    "farmerStep1Desc": "完成 KYC 验证并提交您的农场文件。",
+    "farmerStep2Title": "登记农场",
+    "farmerStep2Desc": "添加您的农场详情、照片和可用的作物机会。",
+    "farmerStep3Title": "获得资金",
+    "farmerStep3Desc": "从投资者那里获得资金支持您的农业运营。",
+    "farmerStep4Title": "种植与交付",
+    "farmerStep4Desc": "种植作物并交付给经过验证的承购商进行结算。"
+  },
+  "features": {
+    "title": "功能",
+    "subtitle": "为什么选择 OwnaFarm",
+    "feature1Title": "区块链透明度",
+    "feature1Desc": "所有交易记录在区块链上，确保完全透明和安全。",
+    "feature2Title": "实时监控",
+    "feature2Desc": "访问实时 CCTV 画面和物联网传感器数据，全天候监控您的投资。",
+    "feature3Title": "游戏化体验",
+    "feature3Desc": "将农业投资变成有趣的游戏。观看您的虚拟农场与真实作物一起成长。",
+    "feature4Title": "验证的承购商",
+    "feature4Desc": "与 Indofood 和 Mayora 等印尼主要食品公司合作，确保有保障的收购。",
+    "feature5Title": "智能合约",
+    "feature5Desc": "通过经过审计的智能合约自动分配资金和支付收益。",
+    "feature6Title": "投资组合分析",
+    "feature6Desc": "通过详细的分析和报告跟踪您的投资表现。"
+  },
+  "partners": {
+    "title": "合作伙伴",
+    "subtitle": "值得信赖的承购商合作伙伴"
+  },
+  "cta": {
+    "title": "准备开始成长了吗？",
+    "description": "加入数千名投资者和农民，共同建设可持续农业的未来。",
+    "launchGame": "启动游戏",
+    "registerFarm": "注册农场"
+  },
+  "footer": {
+    "description": "连接投资者与经过验证的印尼农民的游戏化农业投资平台。",
+    "product": "产品",
+    "company": "公司",
+    "legal": "法律",
+    "aboutUs": "关于我们",
+    "careers": "招聘",
+    "blog": "博客",
+    "contact": "联系",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "cookies": "Cookie政策",
+    "rights": "版权所有。"
+  },
+  "registerFarm": {
+    "pageTitle": "注册您的农场",
+    "pageDescription": "加入 OwnaFarm，获得来自全球投资者的资金。完成注册流程即可开始。",
+    "benefits": {
+      "funding": "获得投资者资金",
+      "contracts": "验证的承购商合同",
+      "monitoring": "实时农场监控工具",
+      "settlement": "透明的结算流程"
+    },
+    "steps": {
+      "personalInfo": "个人信息",
+      "personalInfoDesc": "您的基本信息",
+      "businessInfo": "商业信息",
+      "businessInfoDesc": "农场和银行详情",
+      "documents": "文件",
+      "documentsDesc": "上传所需文件",
+      "review": "审核",
+      "reviewDesc": "确认您的数据"
+    },
+    "success": {
+      "title": "注册已提交！",
+      "description": "感谢您在 OwnaFarm 注册。我们的团队将审核您的申请，并在 2-3 个工作日内与您联系。"
+    }
+  },
+  "personalInfo": {
+    "title": "个人信息",
+    "description": "请提供您的基本个人详情",
+    "fullName": "全名",
+    "email": "电子邮件",
+    "phoneNumber": "电话号码",
+    "idNumber": "身份证号码（NIK）",
+    "dateOfBirth": "出生日期",
+    "province": "省份",
+    "city": "城市",
+    "district": "区（Kecamatan）",
+    "postalCode": "邮政编码",
+    "address": "完整地址",
+    "selectProvince": "选择省份",
+    "autoFill": "自动填充演示",
+    "errors": {
+      "fullName": "姓名至少3个字符",
+      "email": "请输入有效的电子邮件",
+      "phoneNumber": "请输入有效的印度尼西亚电话号码",
+      "idNumber": "NIK必须是16位数字",
+      "dateOfBirth": "请选择您的出生日期",
+      "address": "地址至少10个字符",
+      "province": "请选择省份",
+      "city": "请输入您的城市",
+      "district": "请输入您的区",
+      "postalCode": "邮政编码必须是5位数字"
+    }
+  },
+  "businessInfo": {
+    "title": "商业信息",
+    "description": "告诉我们您的农业业务",
+    "businessType": "业务类型",
+    "businessName": "企业名称",
+    "npwp": "NPWP",
+    "yearsOfExperience": "经验年限",
+    "bankName": "银行",
+    "bankAccountNumber": "账户号码",
+    "bankAccountName": "账户持有人姓名",
+    "cropsExpertise": "作物专长",
+    "cropsDescription": "选择您有经验种植的作物",
+    "selectBusinessType": "选择业务类型",
+    "selectBank": "选择银行",
+    "autoFill": "自动填充演示",
+    "errors": {
+      "businessType": "请选择业务类型",
+      "npwp": "请输入有效的NPWP",
+      "bankName": "请选择银行",
+      "bankAccountNumber": "账户号码至少10位数字",
+      "bankAccountName": "请输入账户持有人姓名",
+      "yearsOfExperience": "请输入您的经验年限",
+      "cropsExpertise": "请至少选择一种作物"
+    }
+  },
+  "documents": {
+    "title": "文件上传",
+    "description": "上传验证所需的文件",
+    "ktpPhoto": "KTP照片",
+    "ktpPhotoDesc": "清晰的身份证照片（最大5MB）",
+    "selfieWithKtp": "手持KTP自拍",
+    "selfieWithKtpDesc": "您手持KTP的照片（最大5MB）",
+    "npwpPhoto": "NPWP文件",
+    "npwpPhotoDesc": "您的NPWP照片或扫描件（最大5MB）",
+    "bankStatement": "银行对账单",
+    "bankStatementDesc": "最近的银行对账单（选填，最大10MB）",
+    "landCertificate": "土地证书",
+    "landCertificateDesc": "土地所有权证明（选填，最大10MB）",
+    "businessLicense": "营业执照",
+    "businessLicenseDesc": "仅限CV/PT（选填，最大10MB）",
+    "autoFill": "自动填充演示",
+    "errors": {
+      "required": "此文件必填",
+      "fileSize": "文件大小必须小于"
+    }
+  },
+  "review": {
+    "title": "审核您的信息",
+    "description": "提交前请验证所有信息",
+    "personalSection": "个人信息",
+    "businessSection": "商业信息",
+    "documentsSection": "文件",
+    "notUploaded": "未上传",
+    "years": "年",
+    "termsAgreement": "我同意 OwnaFarm 的服务条款和隐私政策。我确认所提供的所有信息准确无误，并授权 OwnaFarm 验证我的文件。",
+    "submitRegistration": "提交注册",
+    "errors": {
+      "terms": "请同意条款和条件"
+    }
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "selectLanguage": "选择语言"
+  }
+}

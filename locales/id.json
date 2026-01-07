@@ -1,0 +1,223 @@
+{
+  "common": {
+    "backToHome": "Kembali ke Beranda",
+    "continue": "Lanjutkan",
+    "back": "Kembali",
+    "submit": "Kirim",
+    "submitting": "Mengirim...",
+    "required": "Wajib",
+    "optional": "Opsional",
+    "language": "Bahasa",
+    "settings": "Pengaturan"
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "howItWorks": "Cara Kerja",
+    "features": "Fitur",
+    "partners": "Mitra",
+    "settings": "Pengaturan"
+  },
+  "hero": {
+    "badge": "Investasi Pertanian Gamifikasi",
+    "title1": "Bermain, Tumbuh,",
+    "title2": "Sejahtera",
+    "description": "Investasi di pertanian nyata melalui platform gamifikasi kami. Saksikan investasi Anda tumbuh bersama tanaman nyata, dan dapatkan hasil dari panen terverifikasi.",
+    "launchGame": "Mulai Game",
+    "registerFarm": "Daftarkan Pertanian",
+    "apy": "APY",
+    "farmers": "Petani"
+  },
+  "stats": {
+    "totalInvested": "Total Terinvestasi",
+    "activeFarms": "Pertanian Aktif",
+    "harvestCompleted": "Panen Selesai",
+    "investorReturns": "Keuntungan Investor"
+  },
+  "about": {
+    "title": "Tentang OwnaFarm",
+    "subtitle": "Menjembatani Investor dan Petani Melalui Teknologi",
+    "description": "OwnaFarm adalah platform investasi pertanian inovatif yang menghubungkan investor global dengan petani Indonesia. Platform kami menggunakan teknologi blockchain untuk transparansi dan mekanisme gamifikasi untuk keterlibatan.",
+    "forInvestors": "Untuk Investor",
+    "forInvestorsDesc": "Investasi di pertanian nyata, pantau pertumbuhan, dan dapatkan hasil dari panen terverifikasi.",
+    "forFarmers": "Untuk Petani",
+    "forFarmersDesc": "Akses pendanaan, kontrak offtaker, dan alat pemantauan real-time untuk pertanian Anda."
+  },
+  "howItWorks": {
+    "title": "Proses",
+    "subtitle": "Cara Kerjanya",
+    "step1Title": "Buat Akun",
+    "step1Desc": "Daftar dengan mudah menggunakan Privy - tanpa setup wallet yang rumit.",
+    "step2Title": "Jelajahi Pertanian",
+    "step2Desc": "Telusuri pertanian terverifikasi dan pilih tanaman sesuai tujuan investasi Anda.",
+    "step3Title": "Investasi & Main",
+    "step3Desc": "Danai pertanian pilihan Anda dan saksikan pertumbuhannya melalui antarmuka gamifikasi.",
+    "step4Title": "Raih Keuntungan",
+    "step4Desc": "Terima pengembalian Anda saat tanaman dipanen dan dikirim ke offtaker.",
+    "farmerStep1Title": "Daftar & Verifikasi",
+    "farmerStep1Desc": "Selesaikan verifikasi KYC dan kirim dokumen pertanian Anda.",
+    "farmerStep2Title": "Daftarkan Pertanian",
+    "farmerStep2Desc": "Tambahkan detail pertanian, foto, dan peluang tanaman yang tersedia.",
+    "farmerStep3Title": "Dapatkan Pendanaan",
+    "farmerStep3Desc": "Terima pendanaan dari investor untuk mendukung operasi pertanian Anda.",
+    "farmerStep4Title": "Tanam & Kirim",
+    "farmerStep4Desc": "Budidayakan tanaman dan kirim ke offtaker terverifikasi untuk penyelesaian."
+  },
+  "features": {
+    "title": "Fitur",
+    "subtitle": "Mengapa Memilih OwnaFarm",
+    "feature1Title": "Transparansi Blockchain",
+    "feature1Desc": "Semua transaksi dicatat di blockchain untuk transparansi dan keamanan penuh.",
+    "feature2Title": "Pemantauan Real-time",
+    "feature2Desc": "Akses feed CCTV langsung dan data sensor IoT untuk memantau investasi Anda 24/7.",
+    "feature3Title": "Pengalaman Gamifikasi",
+    "feature3Desc": "Ubah investasi pertanian menjadi game yang menarik. Saksikan pertanian virtual Anda tumbuh bersama tanaman nyata.",
+    "feature4Title": "Offtaker Terverifikasi",
+    "feature4Desc": "Bermitra dengan perusahaan makanan besar Indonesia seperti Indofood dan Mayora untuk pembelian terjamin.",
+    "feature5Title": "Smart Contract",
+    "feature5Desc": "Distribusi dana otomatis dan pembayaran hasil melalui smart contract yang telah diaudit.",
+    "feature6Title": "Analitik Portofolio",
+    "feature6Desc": "Lacak kinerja investasi Anda dengan analitik dan laporan detail."
+  },
+  "partners": {
+    "title": "Mitra",
+    "subtitle": "Mitra Offtaker Terpercaya"
+  },
+  "cta": {
+    "title": "Siap Memulai Perjalanan?",
+    "description": "Bergabung dengan ribuan investor dan petani yang membangun masa depan pertanian berkelanjutan bersama.",
+    "launchGame": "Mulai Game",
+    "registerFarm": "Daftarkan Pertanian"
+  },
+  "footer": {
+    "description": "Platform investasi pertanian gamifikasi yang menghubungkan investor dengan petani Indonesia terverifikasi.",
+    "product": "Produk",
+    "company": "Perusahaan",
+    "legal": "Legal",
+    "aboutUs": "Tentang Kami",
+    "careers": "Karir",
+    "blog": "Blog",
+    "contact": "Kontak",
+    "privacy": "Kebijakan Privasi",
+    "terms": "Syarat & Ketentuan",
+    "cookies": "Kebijakan Cookie",
+    "rights": "Hak cipta dilindungi."
+  },
+  "registerFarm": {
+    "pageTitle": "Daftarkan Pertanian Anda",
+    "pageDescription": "Bergabung dengan OwnaFarm dan akses pendanaan dari investor di seluruh dunia. Selesaikan proses pendaftaran untuk memulai.",
+    "benefits": {
+      "funding": "Akses pendanaan investor",
+      "contracts": "Kontrak offtaker terverifikasi",
+      "monitoring": "Alat pemantauan pertanian real-time",
+      "settlement": "Proses penyelesaian transparan"
+    },
+    "steps": {
+      "personalInfo": "Info Pribadi",
+      "personalInfoDesc": "Informasi dasar Anda",
+      "businessInfo": "Info Bisnis",
+      "businessInfoDesc": "Detail pertanian & bank",
+      "documents": "Dokumen",
+      "documentsDesc": "Unggah file yang diperlukan",
+      "review": "Tinjau",
+      "reviewDesc": "Konfirmasi data Anda"
+    },
+    "success": {
+      "title": "Pendaftaran Terkirim!",
+      "description": "Terima kasih telah mendaftar di OwnaFarm. Tim kami akan meninjau aplikasi Anda dan menghubungi Anda dalam 2-3 hari kerja."
+    }
+  },
+  "personalInfo": {
+    "title": "Informasi Pribadi",
+    "description": "Mohon berikan data pribadi dasar Anda",
+    "fullName": "Nama Lengkap",
+    "email": "Email",
+    "phoneNumber": "Nomor Telepon",
+    "idNumber": "NIK (Nomor Identitas)",
+    "dateOfBirth": "Tanggal Lahir",
+    "province": "Provinsi",
+    "city": "Kota",
+    "district": "Kecamatan",
+    "postalCode": "Kode Pos",
+    "address": "Alamat Lengkap",
+    "selectProvince": "Pilih provinsi",
+    "autoFill": "Isi Otomatis Demo",
+    "errors": {
+      "fullName": "Nama minimal 3 karakter",
+      "email": "Masukkan email yang valid",
+      "phoneNumber": "Masukkan nomor telepon Indonesia yang valid",
+      "idNumber": "NIK harus 16 digit",
+      "dateOfBirth": "Pilih tanggal lahir Anda",
+      "address": "Alamat minimal 10 karakter",
+      "province": "Pilih provinsi",
+      "city": "Masukkan kota Anda",
+      "district": "Masukkan kecamatan Anda",
+      "postalCode": "Kode pos harus 5 digit"
+    }
+  },
+  "businessInfo": {
+    "title": "Informasi Bisnis",
+    "description": "Ceritakan tentang bisnis pertanian Anda",
+    "businessType": "Jenis Usaha",
+    "businessName": "Nama Usaha",
+    "npwp": "NPWP",
+    "yearsOfExperience": "Pengalaman (Tahun)",
+    "bankName": "Bank",
+    "bankAccountNumber": "Nomor Rekening",
+    "bankAccountName": "Nama Pemilik Rekening",
+    "cropsExpertise": "Keahlian Tanaman",
+    "cropsDescription": "Pilih tanaman yang Anda berpengalaman menanamnya",
+    "selectBusinessType": "Pilih jenis usaha",
+    "selectBank": "Pilih bank",
+    "autoFill": "Isi Otomatis Demo",
+    "errors": {
+      "businessType": "Pilih jenis usaha",
+      "npwp": "Masukkan NPWP yang valid",
+      "bankName": "Pilih bank",
+      "bankAccountNumber": "Nomor rekening minimal 10 digit",
+      "bankAccountName": "Masukkan nama pemilik rekening",
+      "yearsOfExperience": "Masukkan pengalaman Anda",
+      "cropsExpertise": "Pilih minimal satu tanaman"
+    }
+  },
+  "documents": {
+    "title": "Unggah Dokumen",
+    "description": "Unggah dokumen yang diperlukan untuk verifikasi",
+    "ktpPhoto": "Foto KTP",
+    "ktpPhotoDesc": "Foto KTP yang jelas (maks 5MB)",
+    "selfieWithKtp": "Selfie dengan KTP",
+    "selfieWithKtpDesc": "Foto Anda memegang KTP (maks 5MB)",
+    "npwpPhoto": "Dokumen NPWP",
+    "npwpPhotoDesc": "Foto atau scan NPWP Anda (maks 5MB)",
+    "bankStatement": "Rekening Koran",
+    "bankStatementDesc": "Rekening koran terbaru (opsional, maks 10MB)",
+    "landCertificate": "Sertifikat Tanah",
+    "landCertificateDesc": "Bukti kepemilikan tanah (opsional, maks 10MB)",
+    "businessLicense": "Izin Usaha",
+    "businessLicenseDesc": "Untuk CV/PT saja (opsional, maks 10MB)",
+    "autoFill": "Isi Otomatis Demo",
+    "errors": {
+      "required": "Dokumen ini wajib",
+      "fileSize": "Ukuran file harus kurang dari"
+    }
+  },
+  "review": {
+    "title": "Tinjau Informasi Anda",
+    "description": "Mohon verifikasi semua informasi sebelum mengirim",
+    "personalSection": "Informasi Pribadi",
+    "businessSection": "Informasi Bisnis",
+    "documentsSection": "Dokumen",
+    "notUploaded": "Belum diunggah",
+    "years": "tahun",
+    "termsAgreement": "Saya menyetujui Syarat Layanan dan Kebijakan Privasi OwnaFarm. Saya mengonfirmasi bahwa semua informasi yang diberikan adalah akurat dan saya mengizinkan OwnaFarm untuk memverifikasi dokumen saya.",
+    "submitRegistration": "Kirim Pendaftaran",
+    "errors": {
+      "terms": "Mohon setujui syarat dan ketentuan"
+    }
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "language": "Bahasa",
+    "selectLanguage": "Pilih Bahasa"
+  }
+}

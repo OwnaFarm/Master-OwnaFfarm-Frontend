@@ -1,0 +1,223 @@
+{
+  "common": {
+    "backToHome": "Back to Home",
+    "continue": "Continue",
+    "back": "Back",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "required": "Required",
+    "optional": "Optional",
+    "language": "Language",
+    "settings": "Settings"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "howItWorks": "How It Works",
+    "features": "Features",
+    "partners": "Partners",
+    "settings": "Settings"
+  },
+  "hero": {
+    "badge": "Gamified Agricultural Investment",
+    "title1": "Play, Grow,",
+    "title2": "Prosper",
+    "description": "Invest in real farms through our gamified platform. Watch your investments grow alongside actual crops, and earn yields backed by verified harvests.",
+    "launchGame": "Launch Game",
+    "registerFarm": "Register Farm",
+    "apy": "APY",
+    "farmers": "Farmers"
+  },
+  "stats": {
+    "totalInvested": "Total Invested",
+    "activeFarms": "Active Farms",
+    "harvestCompleted": "Harvest Completed",
+    "investorReturns": "Investor Returns"
+  },
+  "about": {
+    "title": "About OwnaFarm",
+    "subtitle": "Bridging Investors and Farmers Through Technology",
+    "description": "OwnaFarm is an innovative agricultural investment platform that connects global investors with Indonesian farmers. Our platform uses blockchain technology for transparency and gamification mechanics for engagement.",
+    "forInvestors": "For Investors",
+    "forInvestorsDesc": "Invest in real farms, monitor growth, and earn yields from verified harvests.",
+    "forFarmers": "For Farmers",
+    "forFarmersDesc": "Access funding, offtaker contracts, and real-time monitoring tools for your farm."
+  },
+  "howItWorks": {
+    "title": "Process",
+    "subtitle": "How It Works",
+    "step1Title": "Create Account",
+    "step1Desc": "Sign up seamlessly with Privy - no complex wallet setup required.",
+    "step2Title": "Browse Farms",
+    "step2Desc": "Explore verified farms and choose crops that match your investment goals.",
+    "step3Title": "Invest & Play",
+    "step3Desc": "Fund your chosen farm and watch it grow through our gamified interface.",
+    "step4Title": "Earn Yields",
+    "step4Desc": "Receive your returns when crops are harvested and delivered to offtakers.",
+    "farmerStep1Title": "Register & Verify",
+    "farmerStep1Desc": "Complete KYC verification and submit your farm documentation.",
+    "farmerStep2Title": "List Your Farm",
+    "farmerStep2Desc": "Add your farm details, photos, and available crop opportunities.",
+    "farmerStep3Title": "Get Funded",
+    "farmerStep3Desc": "Receive funding from investors to support your agricultural operations.",
+    "farmerStep4Title": "Grow & Deliver",
+    "farmerStep4Desc": "Cultivate crops and deliver to verified offtakers for settlement."
+  },
+  "features": {
+    "title": "Features",
+    "subtitle": "Why Choose OwnaFarm",
+    "feature1Title": "Blockchain Transparency",
+    "feature1Desc": "All transactions are recorded on blockchain for full transparency and security.",
+    "feature2Title": "Real-time Monitoring",
+    "feature2Desc": "Access live CCTV feeds and IoT sensor data to monitor your investment 24/7.",
+    "feature3Title": "Gamified Experience",
+    "feature3Desc": "Turn agricultural investment into an engaging game. Watch your virtual farm grow alongside real crops.",
+    "feature4Title": "Verified Offtakers",
+    "feature4Desc": "Partner with major Indonesian food companies like Indofood and Mayora for guaranteed purchases.",
+    "feature5Title": "Smart Contracts",
+    "feature5Desc": "Automated fund distribution and yield payments through audited smart contracts.",
+    "feature6Title": "Portfolio Analytics",
+    "feature6Desc": "Track your investment performance with detailed analytics and reports."
+  },
+  "partners": {
+    "title": "Partners",
+    "subtitle": "Trusted Offtaker Partners"
+  },
+  "cta": {
+    "title": "Ready to Start Growing?",
+    "description": "Join thousands of investors and farmers building the future of sustainable agriculture together.",
+    "launchGame": "Launch Game",
+    "registerFarm": "Register Farm"
+  },
+  "footer": {
+    "description": "Gamified agricultural investment platform connecting investors with verified Indonesian farmers.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "aboutUs": "About Us",
+    "careers": "Careers",
+    "blog": "Blog",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "rights": "All rights reserved."
+  },
+  "registerFarm": {
+    "pageTitle": "Register Your Farm",
+    "pageDescription": "Join OwnaFarm and access funding from investors worldwide. Complete the registration process to get started.",
+    "benefits": {
+      "funding": "Access to investor funding",
+      "contracts": "Verified offtaker contracts",
+      "monitoring": "Real-time farm monitoring tools",
+      "settlement": "Transparent settlement process"
+    },
+    "steps": {
+      "personalInfo": "Personal Info",
+      "personalInfoDesc": "Your basic information",
+      "businessInfo": "Business Info",
+      "businessInfoDesc": "Farm & banking details",
+      "documents": "Documents",
+      "documentsDesc": "Upload required files",
+      "review": "Review",
+      "reviewDesc": "Confirm your data"
+    },
+    "success": {
+      "title": "Registration Submitted!",
+      "description": "Thank you for registering with OwnaFarm. Our team will review your application and contact you within 2-3 business days."
+    }
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "description": "Please provide your basic personal details",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "idNumber": "NIK (ID Number)",
+    "dateOfBirth": "Date of Birth",
+    "province": "Province",
+    "city": "City",
+    "district": "District (Kecamatan)",
+    "postalCode": "Postal Code",
+    "address": "Full Address",
+    "selectProvince": "Select province",
+    "autoFill": "Auto Fill Demo",
+    "errors": {
+      "fullName": "Name must be at least 3 characters",
+      "email": "Please enter a valid email",
+      "phoneNumber": "Please enter a valid Indonesian phone number",
+      "idNumber": "NIK must be 16 digits",
+      "dateOfBirth": "Please select your date of birth",
+      "address": "Address must be at least 10 characters",
+      "province": "Please select a province",
+      "city": "Please enter your city",
+      "district": "Please enter your district",
+      "postalCode": "Postal code must be 5 digits"
+    }
+  },
+  "businessInfo": {
+    "title": "Business Information",
+    "description": "Tell us about your farming business",
+    "businessType": "Business Type",
+    "businessName": "Business Name",
+    "npwp": "NPWP",
+    "yearsOfExperience": "Years of Experience",
+    "bankName": "Bank",
+    "bankAccountNumber": "Account Number",
+    "bankAccountName": "Account Holder Name",
+    "cropsExpertise": "Crops Expertise",
+    "cropsDescription": "Select the crops you have experience growing",
+    "selectBusinessType": "Select business type",
+    "selectBank": "Select bank",
+    "autoFill": "Auto Fill Demo",
+    "errors": {
+      "businessType": "Please select a business type",
+      "npwp": "Please enter a valid NPWP",
+      "bankName": "Please select a bank",
+      "bankAccountNumber": "Account number must be at least 10 digits",
+      "bankAccountName": "Please enter the account holder name",
+      "yearsOfExperience": "Please enter your years of experience",
+      "cropsExpertise": "Please select at least one crop"
+    }
+  },
+  "documents": {
+    "title": "Document Upload",
+    "description": "Upload required documents for verification",
+    "ktpPhoto": "KTP Photo",
+    "ktpPhotoDesc": "Clear photo of your ID card (max 5MB)",
+    "selfieWithKtp": "Selfie with KTP",
+    "selfieWithKtpDesc": "Photo of yourself holding your KTP (max 5MB)",
+    "npwpPhoto": "NPWP Document",
+    "npwpPhotoDesc": "Photo or scan of your NPWP (max 5MB)",
+    "bankStatement": "Bank Statement",
+    "bankStatementDesc": "Recent bank statement (optional, max 10MB)",
+    "landCertificate": "Land Certificate",
+    "landCertificateDesc": "Proof of land ownership (optional, max 10MB)",
+    "businessLicense": "Business License",
+    "businessLicenseDesc": "For CV/PT only (optional, max 10MB)",
+    "autoFill": "Auto Fill Demo",
+    "errors": {
+      "required": "This document is required",
+      "fileSize": "File size must be less than"
+    }
+  },
+  "review": {
+    "title": "Review Your Information",
+    "description": "Please verify all information before submitting",
+    "personalSection": "Personal Information",
+    "businessSection": "Business Information",
+    "documentsSection": "Documents",
+    "notUploaded": "Not uploaded",
+    "years": "years",
+    "termsAgreement": "I agree to the OwnaFarm Terms of Service and Privacy Policy. I confirm that all information provided is accurate and I authorize OwnaFarm to verify my documents.",
+    "submitRegistration": "Submit Registration",
+    "errors": {
+      "terms": "Please agree to the terms and conditions"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "selectLanguage": "Select Language"
+  }
+}
