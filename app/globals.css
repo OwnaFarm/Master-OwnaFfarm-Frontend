@@ -4,80 +4,89 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Agricultural green-brown theme */
-  --background: oklch(0.98 0.005 90);
-  --foreground: oklch(0.2 0.02 60);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 60);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 60);
-  --primary: oklch(0.45 0.12 145);
-  --primary-foreground: oklch(0.98 0.005 90);
-  --secondary: oklch(0.55 0.08 55);
-  --secondary-foreground: oklch(0.98 0.005 90);
-  --muted: oklch(0.94 0.01 90);
-  --muted-foreground: oklch(0.45 0.02 60);
-  --accent: oklch(0.35 0.06 55);
-  --accent-foreground: oklch(0.98 0.005 90);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.88 0.02 80);
-  --input: oklch(0.92 0.01 85);
-  --ring: oklch(0.45 0.12 145);
-  --chart-1: oklch(0.45 0.12 145);
-  --chart-2: oklch(0.55 0.08 55);
-  --chart-3: oklch(0.65 0.1 85);
-  --chart-4: oklch(0.5 0.06 145);
-  --chart-5: oklch(0.6 0.05 55);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.98 0.005 90);
-  --sidebar-foreground: oklch(0.2 0.02 60);
-  --sidebar-primary: oklch(0.45 0.12 145);
-  --sidebar-primary-foreground: oklch(0.98 0.005 90);
-  --sidebar-accent: oklch(0.94 0.01 90);
-  --sidebar-accent-foreground: oklch(0.2 0.02 60);
-  --sidebar-border: oklch(0.88 0.02 80);
-  --sidebar-ring: oklch(0.45 0.12 145);
+  /* Pixel Game Color Palette - Sunflower Land inspired */
+  --background: oklch(0.96 0.02 70);
+  /* Warm parchment */
+  --foreground: oklch(0.25 0.03 50);
+  /* Dark brown */
+  --card: oklch(0.99 0.01 80);
+  /* Light cream */
+  --card-foreground: oklch(0.25 0.03 50);
+  --popover: oklch(0.99 0.01 80);
+  --popover-foreground: oklch(0.25 0.03 50);
+  --primary: oklch(0.58 0.15 135);
+  /* Lush green */
+  --primary-foreground: oklch(0.99 0.01 80);
+  --secondary: oklch(0.80 0.15 85);
+  /* Sunny yellow */
+  --secondary-foreground: oklch(0.25 0.03 50);
+  --muted: oklch(0.92 0.02 75);
+  --muted-foreground: oklch(0.50 0.03 55);
+  --accent: oklch(0.65 0.15 50);
+  /* Warm orange */
+  --accent-foreground: oklch(0.99 0.01 80);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0.01 80);
+  --border: oklch(0.55 0.08 60);
+  /* Brown border */
+  --input: oklch(0.88 0.02 70);
+  --ring: oklch(0.58 0.15 135);
+  --chart-1: oklch(0.58 0.15 135);
+  --chart-2: oklch(0.80 0.15 85);
+  --chart-3: oklch(0.65 0.15 50);
+  --chart-4: oklch(0.50 0.12 145);
+  --chart-5: oklch(0.70 0.12 75);
+  --radius: 0.25rem;
+  /* Smaller radius for pixel feel */
+  --sidebar: oklch(0.96 0.02 70);
+  --sidebar-foreground: oklch(0.25 0.03 50);
+  --sidebar-primary: oklch(0.58 0.15 135);
+  --sidebar-primary-foreground: oklch(0.99 0.01 80);
+  --sidebar-accent: oklch(0.92 0.02 75);
+  --sidebar-accent-foreground: oklch(0.25 0.03 50);
+  --sidebar-border: oklch(0.55 0.08 60);
+  --sidebar-ring: oklch(0.58 0.15 135);
 }
 
 .dark {
-  --background: oklch(0.15 0.02 60);
-  --foreground: oklch(0.95 0.005 90);
-  --card: oklch(0.18 0.02 60);
-  --card-foreground: oklch(0.95 0.005 90);
-  --popover: oklch(0.18 0.02 60);
-  --popover-foreground: oklch(0.95 0.005 90);
-  --primary: oklch(0.55 0.15 145);
-  --primary-foreground: oklch(0.15 0.02 60);
-  --secondary: oklch(0.45 0.08 55);
-  --secondary-foreground: oklch(0.95 0.005 90);
-  --muted: oklch(0.25 0.02 60);
-  --muted-foreground: oklch(0.65 0.01 90);
-  --accent: oklch(0.45 0.08 55);
-  --accent-foreground: oklch(0.95 0.005 90);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.3 0.02 60);
-  --input: oklch(0.25 0.02 60);
-  --ring: oklch(0.55 0.15 145);
-  --chart-1: oklch(0.55 0.15 145);
-  --chart-2: oklch(0.5 0.1 55);
-  --chart-3: oklch(0.6 0.08 85);
-  --chart-4: oklch(0.45 0.12 145);
-  --chart-5: oklch(0.55 0.08 55);
-  --sidebar: oklch(0.18 0.02 60);
-  --sidebar-foreground: oklch(0.95 0.005 90);
-  --sidebar-primary: oklch(0.55 0.15 145);
-  --sidebar-primary-foreground: oklch(0.15 0.02 60);
-  --sidebar-accent: oklch(0.25 0.02 60);
-  --sidebar-accent-foreground: oklch(0.95 0.005 90);
-  --sidebar-border: oklch(0.3 0.02 60);
-  --sidebar-ring: oklch(0.55 0.15 145);
+  --background: oklch(0.20 0.03 50);
+  --foreground: oklch(0.95 0.02 75);
+  --card: oklch(0.23 0.03 50);
+  --card-foreground: oklch(0.95 0.02 75);
+  --popover: oklch(0.23 0.03 50);
+  --popover-foreground: oklch(0.95 0.02 75);
+  --primary: oklch(0.65 0.17 140);
+  --primary-foreground: oklch(0.20 0.03 50);
+  --secondary: oklch(0.75 0.18 85);
+  --secondary-foreground: oklch(0.20 0.03 50);
+  --muted: oklch(0.30 0.03 55);
+  --muted-foreground: oklch(0.70 0.02 70);
+  --accent: oklch(0.60 0.17 45);
+  --accent-foreground: oklch(0.95 0.02 75);
+  --destructive: oklch(0.50 0.20 30);
+  --destructive-foreground: oklch(0.95 0.02 75);
+  --border: oklch(0.40 0.05 55);
+  --input: oklch(0.30 0.03 55);
+  --ring: oklch(0.65 0.17 140);
+  --chart-1: oklch(0.65 0.17 140);
+  --chart-2: oklch(0.75 0.18 85);
+  --chart-3: oklch(0.60 0.17 45);
+  --chart-4: oklch(0.55 0.15 145);
+  --chart-5: oklch(0.68 0.14 80);
+  --sidebar: oklch(0.23 0.03 50);
+  --sidebar-foreground: oklch(0.95 0.02 75);
+  --sidebar-primary: oklch(0.65 0.17 140);
+  --sidebar-primary-foreground: oklch(0.20 0.03 50);
+  --sidebar-accent: oklch(0.30 0.03 55);
+  --sidebar-accent-foreground: oklch(0.95 0.02 75);
+  --sidebar-border: oklch(0.40 0.05 55);
+  --sidebar-ring: oklch(0.65 0.17 140);
 }
 
 @theme inline {
   --font-sans: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --font-pixel: "Press Start 2P", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -120,6 +129,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -141,4 +151,241 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary);
+}
+
+/* ==========================
+   PIXEL-ART GAME UTILITIES
+   ========================== */
+
+/* Pixel-art borders (chunky retro style) */
+.pixel-border {
+  border: 4px solid var(--border);
+  box-shadow:
+    0 0 0 1px var(--border),
+    4px 4px 0 0 rgba(0, 0, 0, 0.2);
+  image-rendering: pixelated;
+}
+
+.pixel-border-thick {
+  border: 6px solid var(--border);
+  box-shadow:
+    0 0 0 2px var(--border),
+    6px 6px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Retro 3D button effect */
+.pixel-button {
+  border: 4px solid var(--border);
+  box-shadow:
+    inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+    inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+    4px 4px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.pixel-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+    inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+    5px 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.pixel-button:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    inset -2px -2px 0 rgba(0, 0, 0, 0.2),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+    2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Pixel font utility */
+.font-pixel {
+  font-family: var(--font-pixel);
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
+
+/* Pixel pattern background */
+.pixel-pattern {
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0, 0, 0, 0.03) 4px, rgba(0, 0, 0, 0.03) 5px),
+    repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0, 0, 0, 0.03) 4px, rgba(0, 0, 0, 0.03) 5px);
+}
+
+/* ==========================
+   END PIXEL-ART UTILITIES
+   ========================== */
+
+/* Pixel-art game-feel animations */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Pulse animation for CTAs - infinite heartbeat */
+  @keyframes pulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(var(--primary), 0.7);
+    }
+
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 10px rgba(var(--primary), 0);
+    }
+  }
+
+  .animate-pulse-cta {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Bounce animation for button hover */
+  @keyframes bounce-up {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .hover-bounce:hover {
+    animation: bounce-up 0.4s ease-in-out;
+  }
+
+  /* Wiggle animation for playful hover effect */
+  @keyframes wiggle {
+
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+
+    25% {
+      transform: rotate(-2deg);
+    }
+
+    75% {
+      transform: rotate(2deg);
+    }
+  }
+
+  .hover-wiggle:hover {
+    animation: wiggle 0.3s ease-in-out;
+  }
+
+  /* Pixel glow effect for cards */
+  @keyframes pixel-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 5px rgba(245, 158, 11, 0.5),
+        0 0 10px rgba(245, 158, 11, 0.3),
+        0 0 15px rgba(245, 158, 11, 0.2);
+    }
+
+    50% {
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.8),
+        0 0 20px rgba(245, 158, 11, 0.5),
+        0 0 30px rgba(245, 158, 11, 0.3);
+    }
+  }
+
+  .hover-pixel-glow:hover {
+    animation: pixel-glow 1s ease-in-out infinite;
+    border-color: rgb(245, 158, 11);
+  }
+
+  /* Typewriter effect */
+  @keyframes typewriter {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes blink-caret {
+    50% {
+      border-color: transparent;
+    }
+  }
+
+  .typewriter {
+    overflow: hidden;
+    border-right: 3px solid var(--primary);
+    white-space: nowrap;
+    animation: typewriter 3s steps(40) 1s forwards,
+      blink-caret 0.75s step-end infinite;
+  }
+
+  /* Floating animation for decorative elements */
+  @keyframes float-up {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(-100px) translateX(20px);
+      opacity: 0;
+    }
+  }
+
+  .animate-float {
+    animation: float-up 3s ease-out forwards;
+  }
+
+  /* Parallax scroll effect helper */
+  .parallax-slow {
+    transform: translateZ(-1px) scale(2);
+  }
+
+  /* Scale on hover for cards */
+  .hover-scale {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+
+  /* Coin spin animation */
+  @keyframes coin-spin {
+    0% {
+      transform: rotateY(0deg);
+    }
+
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+
+  .animate-coin-spin {
+    animation: coin-spin 2s linear infinite;
+  }
+}
+
+/* Reduced motion alternatives */
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-pulse-cta,
+  .hover-bounce,
+  .hover-wiggle,
+  .hover-pixel-glow,
+  .typewriter,
+  .animate-float,
+  .animate-coin-spin {
+    animation: none !important;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+    /* Subtle scale only */
+  }
 }

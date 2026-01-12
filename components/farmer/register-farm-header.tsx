@@ -23,7 +23,7 @@ export function RegisterFarmHeader() {
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden bg-primary/10 flex items-center justify-center">
             <Image src="/green-leaf-farm-logo.jpg" alt="OwnaFarm" width={40} height={40} className="object-cover" />
           </div>
-          <span className="text-lg sm:text-xl font-bold text-foreground">OwnaFarm</span>
+          <span className="text-lg sm:text-xl font-pixel text-foreground">OwnaFarm</span>
         </div>
         <div className="w-20 sm:w-24 lg:hidden" />
         <div className="hidden lg:block" />

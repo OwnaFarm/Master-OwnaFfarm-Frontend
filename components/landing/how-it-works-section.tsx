@@ -79,8 +79,8 @@ export function HowItWorksSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-semibold text-primary mb-4 tracking-wider uppercase">{t("howItWorks.title")}</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("howItWorks.subtitle")}</h2>
+          <p className="text-sm font-pixel text-primary mb-4 tracking-wider uppercase">{t("howItWorks.title")}</p>
+          <h2 className="text-3xl md:text-4xl font-pixel text-foreground mb-4">{t("howItWorks.subtitle")}</h2>
         </motion.div>
 
         {/* Investor Flow */}
@@ -94,7 +94,7 @@ export function HowItWorksSection() {
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
               <Coins className="w-5 h-5 text-primary" />
             </div>
-            <h3 className="text-2xl font-bold text-foreground">{t("about.forInvestors")}</h3>
+            <h3 className="text-2xl font-pixel text-foreground">{t("about.forInvestors")}</h3>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -112,8 +112,8 @@ export function HowItWorksSection() {
                   <Image src={step.image || "/placeholder.svg"} alt={t(step.titleKey)} fill className="object-cover" />
                 </div>
                 <div className="mb-4">{step.icon}</div>
-                <h4 className="text-lg font-semibold text-foreground mb-2">{t(step.titleKey)}</h4>
-                <p className="text-sm text-muted-foreground">{t(step.descKey)}</p>
+                <h4 className="text-lg font-pixel text-foreground mb-2">{t(step.titleKey)}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(step.descKey)}</p>
               </motion.div>
             ))}
           </div>
@@ -130,7 +130,7 @@ export function HowItWorksSection() {
             <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
               <Truck className="w-5 h-5 text-secondary" />
             </div>
-            <h3 className="text-2xl font-bold text-foreground">{t("about.forFarmers")}</h3>
+            <h3 className="text-2xl font-pixel text-foreground">{t("about.forFarmers")}</h3>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -148,8 +148,8 @@ export function HowItWorksSection() {
                   <Image src={step.image || "/placeholder.svg"} alt={t(step.titleKey)} fill className="object-cover" />
                 </div>
                 <div className="mb-4">{step.icon}</div>
-                <h4 className="text-lg font-semibold text-foreground mb-2">{t(step.titleKey)}</h4>
-                <p className="text-sm text-muted-foreground">{t(step.descKey)}</p>
+                <h4 className="text-lg font-pixel text-foreground mb-2">{t(step.titleKey)}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(step.descKey)}</p>
               </motion.div>
             ))}
           </div>

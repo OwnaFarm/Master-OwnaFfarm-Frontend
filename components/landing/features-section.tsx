@@ -49,8 +49,8 @@ export function FeaturesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-semibold text-primary mb-4 tracking-wider uppercase">{t("features.title")}</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("features.subtitle")}</h2>
+          <p className="text-sm font-pixel text-primary mb-4 tracking-wider uppercase">{t("features.title")}</p>
+          <h2 className="text-3xl md:text-4xl font-pixel text-foreground mb-4">{t("features.subtitle")}</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -61,7 +61,7 @@ export function FeaturesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-card border border-border rounded-2xl overflow-hidden group hover:shadow-xl transition-all duration-300"
+              className="pixel-border bg-card rounded-lg overflow-hidden group hover:shadow-xl hover-scale transition-all duration-300"
             >
               <div className="relative h-40 overflow-hidden">
                 <Image
@@ -73,8 +73,8 @@ export function FeaturesSection() {
                 <div className="absolute inset-0 bg-foreground/10" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-foreground mb-3">{t(feature.titleKey)}</h3>
-                <p className="text-muted-foreground">{t(feature.descKey)}</p>
+                <h3 className="text-lg font-pixel text-foreground mb-3">{t(feature.titleKey)}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{t(feature.descKey)}</p>
               </div>
             </motion.div>
           ))}

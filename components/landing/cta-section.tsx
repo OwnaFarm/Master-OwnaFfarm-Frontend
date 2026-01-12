@@ -28,13 +28,13 @@ export function CtaSection() {
             />
           </div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent-foreground mb-6">{t("cta.title")}</h2>
-          <p className="text-lg md:text-xl text-accent-foreground/80 mb-10 max-w-2xl mx-auto">{t("cta.description")}</p>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-pixel text-accent-foreground mb-6">{t("cta.title")}</h2>
+          <p className="text-lg md:text-xl text-accent-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed">{t("cta.description")}</p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg font-semibold rounded-xl"
+              className="pixel-button bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg font-pixel uppercase rounded-md"
             >
               <Gamepad2 className="w-5 h-5 mr-2" />
               {t("cta.launchGame")}
@@ -42,7 +42,7 @@ export function CtaSection() {
             <Button
               size="lg"
               asChild
-              className="bg-accent-foreground hover:bg-accent-foreground/90 text-accent px-10 py-6 text-lg font-semibold rounded-xl"
+              className="pixel-button bg-accent-foreground hover:bg-accent-foreground/90 text-accent px-10 py-6 text-lg font-pixel uppercase rounded-md"
             >
               <Link href="/register-farm">
                 <Tractor className="w-5 h-5 mr-2" />

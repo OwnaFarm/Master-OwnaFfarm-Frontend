@@ -15,7 +15,7 @@ export function RegisterFarmSidebar() {
 
   return (
     <div className="lg:sticky lg:top-28">
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-pixel text-foreground mb-3 sm:mb-4">
         {t("registerFarm.pageTitle")}
       </h1>
       <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8">{t("registerFarm.pageDescription")}</p>

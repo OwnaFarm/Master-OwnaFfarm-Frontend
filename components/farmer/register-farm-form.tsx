@@ -113,7 +113,7 @@ export function RegisterFarmForm() {
         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
           <Check className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">
+        <h2 className="text-xl sm:text-2xl font-pixel text-foreground mb-3 sm:mb-4">
           {t("registerFarm.success.title")}
         </h2>
         <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8 max-w-md mx-auto">
@@ -121,7 +121,7 @@ export function RegisterFarmForm() {
         </p>
         <a
           href="/"
-          className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors text-sm sm:text-base"
+          className="pixel-button inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-primary text-primary-foreground rounded-md font-pixel uppercase hover:bg-primary/90 text-sm sm:text-base"
         >
           {t("common.backToHome")}
         </a>
@@ -130,7 +130,7 @@ export function RegisterFarmForm() {
   }
 
   return (
-    <div className="bg-card border border-border rounded-2xl overflow-hidden">
+    <div className="pixel-border bg-card rounded-lg overflow-hidden">
       {/* Progress Steps - Responsive */}
       <div className="bg-muted/30 px-3 sm:px-6 py-4 sm:py-6 border-b border-border">
         <div className="flex items-center justify-between">
@@ -138,29 +138,26 @@ export function RegisterFarmForm() {
             <div key={step.id} className="flex items-center">
               <div className="flex flex-col items-center">
                 <div
-                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition-colors ${
-                    currentStep > step.id
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition-colors ${currentStep > step.id
                       ? "bg-primary text-primary-foreground"
                       : currentStep === step.id
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted text-muted-foreground"
-                  }`}
+                    }`}
                 >
                   {currentStep > step.id ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : step.id}
                 </div>
                 <span
-                  className={`text-[10px] sm:text-xs mt-1 sm:mt-2 font-medium hidden sm:block text-center max-w-[60px] sm:max-w-none ${
-                    currentStep >= step.id ? "text-foreground" : "text-muted-foreground"
-                  }`}
+                  className={`text-[10px] sm:text-xs mt-1 sm:mt-2 font-pixel hidden sm:block text-center max-w-[60px] sm:max-w-none ${currentStep >= step.id ? "text-foreground" : "text-muted-foreground"
+                    }`}
                 >
                   {step.name}
                 </span>
               </div>
               {index < steps.length - 1 && (
                 <div
-                  className={`w-6 sm:w-12 md:w-16 lg:w-20 h-1 mx-1 sm:mx-2 rounded-full transition-colors ${
-                    currentStep > step.id ? "bg-primary" : "bg-muted"
-                  }`}
+                  className={`w-6 sm:w-12 md:w-16 lg:w-20 h-1 mx-1 sm:mx-2 rounded-full transition-colors ${currentStep > step.id ? "bg-primary" : "bg-muted"
+                    }`}
                 />
               )}
             </div>
