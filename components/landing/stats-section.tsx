@@ -26,7 +26,7 @@ export function StatsSection() {
     {
       value: "18%",
       labelKey: "stats.investorReturns",
-      image: "/chart-growth-upward-minimalist.jpg",
+      image: "/profit-chart-green-upward-trend-coins-harvest-cele.jpg",
     },
   ]
 
