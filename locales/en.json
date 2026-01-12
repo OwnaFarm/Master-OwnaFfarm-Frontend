@@ -215,6 +215,43 @@
       "terms": "Please agree to the terms and conditions"
     }
   },
+  "admin": {
+    "pageTitle": "Admin Dashboard",
+    "pageDescription": "Review and manage farmer business proposals. Approve promising ventures or reject submissions that don't meet criteria.",
+    "stats": {
+      "totalSubmissions": "Total Submissions",
+      "pendingReview": "Pending Review",
+      "verified": "Verified",
+      "rejected": "Rejected"
+    },
+    "filter": "Filter",
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "verified": "Verified",
+      "rejected": "Rejected"
+    },
+    "status": {
+      "pending": "PENDING",
+      "verified": "VERIFIED",
+      "rejected": "REJECTED"
+    },
+    "actions": {
+      "approve": "APPROVE",
+      "reject": "REJECT"
+    },
+    "submission": {
+      "submitted": "Submitted",
+      "reviewed": "Reviewed",
+      "businessType": "Business Type",
+      "experience": "exp"
+    },
+    "emptyState": {
+      "title": "NO RESULTS",
+      "description": "No submissions found with status"
+    },
+    "reviewed": "This submission has been"
+  },
   "settings": {
     "title": "Settings",
     "language": "Language",

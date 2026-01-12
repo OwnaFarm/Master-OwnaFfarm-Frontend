@@ -215,6 +215,43 @@
       "terms": "请同意条款和条件"
     }
   },
+  "admin": {
+    "pageTitle": "管理仪表板",
+    "pageDescription": "审核和管理农民商业提案。批准有前途的企业或拒绝不符合标准的提交。",
+    "stats": {
+      "totalSubmissions": "总提交数",
+      "pendingReview": "待审核",
+      "verified": "已验证",
+      "rejected": "已拒绝"
+    },
+    "filter": "筛选",
+    "filters": {
+      "all": "全部",
+      "pending": "待审核",
+      "verified": "已验证",
+      "rejected": "已拒绝"
+    },
+    "status": {
+      "pending": "待审核",
+      "verified": "已验证",
+      "rejected": "已拒绝"
+    },
+    "actions": {
+      "approve": "批准",
+      "reject": "拒绝"
+    },
+    "submission": {
+      "submitted": "提交时间",
+      "reviewed": "审核时间",
+      "businessType": "业务类型",
+      "experience": "经验"
+    },
+    "emptyState": {
+      "title": "无结果",
+      "description": "未找到状态为以下的提交"
+    },
+    "reviewed": "此提交已被"
+  },
   "settings": {
     "title": "设置",
     "language": "语言",

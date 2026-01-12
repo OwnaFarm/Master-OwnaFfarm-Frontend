@@ -215,6 +215,43 @@
       "terms": "Mohon setujui syarat dan ketentuan"
     }
   },
+  "admin": {
+    "pageTitle": "Dasbor Admin",
+    "pageDescription": "Tinjau dan kelola proposal bisnis petani. Setujui usaha yang menjanjikan atau tolak pengajuan yang tidak memenuhi kriteria.",
+    "stats": {
+      "totalSubmissions": "Total Pengajuan",
+      "pendingReview": "Menunggu Tinjauan",
+      "verified": "Terverifikasi",
+      "rejected": "Ditolak"
+    },
+    "filter": "Filter",
+    "filters": {
+      "all": "Semua",
+      "pending": "Menunggu",
+      "verified": "Terverifikasi",
+      "rejected": "Ditolak"
+    },
+    "status": {
+      "pending": "MENUNGGU",
+      "verified": "TERVERIFIKASI",
+      "rejected": "DITOLAK"
+    },
+    "actions": {
+      "approve": "SETUJUI",
+      "reject": "TOLAK"
+    },
+    "submission": {
+      "submitted": "Dikirim",
+      "reviewed": "Ditinjau",
+      "businessType": "Jenis Usaha",
+      "experience": "pengalaman"
+    },
+    "emptyState": {
+      "title": "TIDAK ADA HASIL",
+      "description": "Tidak ada pengajuan dengan status"
+    },
+    "reviewed": "Pengajuan ini telah"
+  },
   "settings": {
     "title": "Pengaturan",
     "language": "Bahasa",
