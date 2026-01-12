@@ -31,12 +31,12 @@ export function FeaturesSection() {
     {
       titleKey: "features.feature5Title",
       descKey: "features.feature5Desc",
-      image: "/smart-contract-code-interface-secure-digital-docum.jpg",
+      image: "/profit-chart-green-upward-trend-coins-harvest-cele.jpg",
     },
     {
       titleKey: "features.feature6Title",
       descKey: "features.feature6Desc",
-      image: "/analytics-dashboard-portfolio-charts-green-theme.jpg",
+      image: "/farm-browsing-dashboard-interface-green-crops-card.jpg",
     },
   ]
 

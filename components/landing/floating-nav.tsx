@@ -79,7 +79,7 @@ export function FloatingNav() {
             <motion.button
               key={item.href}
               onClick={() => scrollToSection(item.href)}
-              className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 overflow-hidden ${
+              className={`flex items-center gap-3 p-1.25 rounded-xl transition-all duration-200 overflow-hidden ${
                 activeSection === item.href.replace("#", "")
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-muted text-foreground"

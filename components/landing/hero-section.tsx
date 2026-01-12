@@ -13,6 +13,12 @@ export function HeroSection() {
   const [displayedText, setDisplayedText] = useState("")
   const fullText = t("hero.title1")
   const [isTypingComplete, setIsTypingComplete] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Track if component is mounted to prevent hydration mismatch
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Typewriter effect for headline
   useEffect(() => {
@@ -47,52 +53,54 @@ export function HeroSection() {
       </div>
 
       {/* Parallax Clouds - Slow moving background layer */}
-      <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={`cloud-${i}`}
-            className="absolute text-6xl opacity-20"
-            initial={{
-              x: -100,
-              y: Math.random() * 80 + 10 + '%',
-            }}
-            animate={{
-              x: '100vw',
-            }}
-            transition={{
-              duration: 40 + (i * 5), // Varying speeds for depth
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: i * 5,
-            }}
-          >
-            ☁️
-          </motion.div>
-        ))}
+      {isMounted && (
+        <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={`cloud-${i}`}
+              className="absolute text-6xl opacity-20"
+              initial={{
+                x: -100,
+                y: Math.random() * 80 + 10 + '%',
+              }}
+              animate={{
+                x: '100vw',
+              }}
+              transition={{
+                duration: 40 + (i * 5), // Varying speeds for depth
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+                delay: i * 5,
+              }}
+            >
+              ☁️
+            </motion.div>
+          ))}
 
-        {/* Floating particles for extra depth */}
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute w-2 h-2 bg-primary/10 rounded-full"
-            initial={{
-              x: Math.random() * 100 + '%',
-              y: '100%',
-              scale: Math.random() * 0.5 + 0.5,
-            }}
-            animate={{
-              y: '-10%',
-              x: `${parseFloat(Math.random() * 100 + '%') + (Math.random() * 10 - 5)}%`,
-            }}
-            transition={{
-              duration: 15 + Math.random() * 10,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: i * 1.5,
-            }}
-          />
-        ))}
-      </div>
+          {/* Floating particles for extra depth */}
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={`particle-${i}`}
+              className="absolute w-2 h-2 bg-primary/10 rounded-full"
+              initial={{
+                x: Math.random() * 100 + '%',
+                y: '100%',
+                scale: Math.random() * 0.5 + 0.5,
+              }}
+              animate={{
+                y: '-10%',
+                x: `${parseFloat(Math.random() * 100 + '%') + (Math.random() * 10 - 5)}%`,
+              }}
+              transition={{
+                duration: 15 + Math.random() * 10,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+                delay: i * 1.5,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-32">
@@ -116,7 +124,7 @@ export function HeroSection() {
               </div>
             </motion.div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-pixel text-foreground leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl font-pixel text-foreground leading-tight mb-6">
               <span className="inline-block">
                 {displayedText}
                 {!isTypingComplete && <span className="inline-block w-1 h-10 md:h-12 lg:h-14 bg-primary ml-1 animate-pulse" />}
@@ -186,7 +194,7 @@ export function HeroSection() {
                   </div>
 
                   {/* Floating coins/leaves around the APY card */}
-                  {[...Array(5)].map((_, i) => (
+                  {isMounted && [...Array(5)].map((_, i) => (
                     <motion.div
                       key={i}
                       className="absolute text-2xl"

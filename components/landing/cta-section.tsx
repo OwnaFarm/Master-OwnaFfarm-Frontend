@@ -21,7 +21,7 @@ export function CtaSection() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <div className="relative w-20 h-20 mx-auto mb-8">
             <Image
-              src="/seedling-growing-plant-green-sprout-minimalist.jpg"
+              src="/ownafarm-logo.webp"
               alt="Launch"
               fill
               className="object-contain rounded-xl"
