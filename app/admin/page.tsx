@@ -9,8 +9,10 @@ import { SubmissionCard } from "@/components/admin/submission-card"
 import { dummySubmissions, type FarmerSubmission } from "@/lib/dummy-data"
 import { Button } from "@/components/ui/button"
 import { Filter } from "lucide-react"
+import { useI18n } from "@/lib/i18n"
 
 export default function AdminDashboard() {
+    const { t } = useI18n()
     const [submissions, setSubmissions] = useState<FarmerSubmission[]>(dummySubmissions)
     const [filterStatus, setFilterStatus] = useState<"All" | "Pending" | "Verified" | "Rejected">("All")
 
@@ -56,23 +58,29 @@ export default function AdminDashboard() {
                     <div className="text-center mb-12">
                         <div className="inline-block pixel-border bg-primary/10 px-8 py-6 mb-6 rounded-full">
                             <h1 className="font-pixel text-2xl md:text-3xl lg:text-4xl text-primary uppercase tracking-wide">
-                                🎮 ADMIN DASHBOARD 🎮
+                                🎮 {t("admin.pageTitle")} 🎮
                             </h1>
                         </div>
                         <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Review and manage farmer business proposals. Approve promising ventures or reject submissions that don't
-                            meet criteria.
+                            {t("admin.pageDescription")}
                         </p>
                     </div>
 
                     {/* Statistics */}
                     <DashboardStats submissions={submissions} />
 
+                    {/* Connect Wallet Button */}
+                    <div className="flex justify-center my-8">
+                        <button className="pixel-button bg-primary text-primary-foreground font-pixel text-lg px-8 py-4 rounded-lg uppercase tracking-wider animate-pulse-cta hover:scale-105 transition-transform shadow-lg">
+                            🔗 Connect Wallet
+                        </button>
+                    </div>
+
                     {/* Filters */}
                     <div className="flex flex-wrap items-center gap-3 mb-8">
                         <div className="flex items-center gap-2 text-foreground pixel-border bg-card px-4 py-2 rounded-lg">
                             <Filter className="w-4 h-4" />
-                            <span className="font-pixel text-xs uppercase">Filter:</span>
+                            <span className="font-pixel text-xs uppercase">{t("admin.filter")}:</span>
                         </div>
                         {["All", "Pending", "Verified", "Rejected"].map((status) => (
                             <Button
@@ -84,7 +92,7 @@ export default function AdminDashboard() {
                                     : "bg-card text-foreground hover:bg-muted"
                                     }`}
                             >
-                                {status}
+                                {t(`admin.filters.${status.toLowerCase()}`)}
                             </Button>
                         ))}
                     </div>
@@ -97,9 +105,9 @@ export default function AdminDashboard() {
                                     <thead className="bg-muted/50">
                                         <tr className="border-b border-border">
                                             <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Farmer</th>
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Business</th>
+                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">{t("admin.submission.businessType")}</th>
                                             <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden md:table-cell">Location</th>
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden lg:table-cell">Experience</th>
+                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden lg:table-cell">{t("admin.submission.experience")}</th>
                                             <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Status</th>
                                             <th className="text-center p-4 font-pixel text-xs uppercase text-foreground">Actions</th>
                                         </tr>
@@ -120,8 +128,8 @@ export default function AdminDashboard() {
                                                 </td>
                                                 <td className="p-4">
                                                     <div>
-                                                        <p className="font-medium text-sm text-foreground mb-1">{submission.businessType}</p>
-                                                        <p className="text-xs text-muted-foreground line-clamp-2">{submission.description}</p>
+                                                        <p className="font-medium text-sm text-foreground mb-1">{t(`admin.submissions.${submission.id}.businessType`)}</p>
+                                                        <p className="text-xs text-muted-foreground line-clamp-2">{t(`admin.submissions.${submission.id}.description`)}</p>
                                                     </div>
                                                 </td>
                                                 <td className="p-4 hidden md:table-cell">
@@ -139,17 +147,17 @@ export default function AdminDashboard() {
                                                 <td className="p-4">
                                                     {submission.status === "Verified" && (
                                                         <span className="inline-block bg-primary text-primary-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg">
-                                                            ✓ VERIFIED
+                                                            ✓ {t("admin.status.verified")}
                                                         </span>
                                                     )}
                                                     {submission.status === "Rejected" && (
                                                         <span className="inline-block bg-destructive text-destructive-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg">
-                                                            ✗ REJECTED
+                                                            ✗ {t("admin.status.rejected")}
                                                         </span>
                                                     )}
                                                     {submission.status === "Pending" && (
                                                         <span className="inline-block bg-secondary text-secondary-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg animate-pulse-cta">
-                                                            ⏳ PENDING
+                                                            ⏳ {t("admin.status.pending")}
                                                         </span>
                                                     )}
                                                 </td>
@@ -186,8 +194,8 @@ export default function AdminDashboard() {
                         </div>
                     ) : (
                         <div className="pixel-border bg-card p-12 text-center rounded-lg">
-                            <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide mb-2">⚠️ NO RESULTS ⚠️</p>
-                            <p className="text-muted-foreground text-sm">No submissions found with status: {filterStatus}</p>
+                            <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide mb-2">⚠️ {t("admin.emptyState.title")} ⚠️</p>
+                            <p className="text-muted-foreground text-sm">{t("admin.emptyState.description")}: {t(`admin.filters.${filterStatus.toLowerCase()}`)}</p>
                         </div>
                     )}
                 </div>

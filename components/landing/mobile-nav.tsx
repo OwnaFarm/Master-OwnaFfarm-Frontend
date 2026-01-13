@@ -1,12 +1,14 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Gamepad2, Tractor, Globe, Settings } from "lucide-react"
 import { useI18n, localeNames } from "@/lib/i18n"
 
 export function MobileNav() {
   const { locale, setLocale, t } = useI18n()
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [showLanguages, setShowLanguages] = useState(false)
 
@@ -19,9 +21,20 @@ export function MobileNav() {
   ]
 
   const scrollToSection = (href: string) => {
-    const element = document.getElementById(href.replace("#", ""))
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+    if (href.startsWith("#")) {
+      // If we're on the homepage, smooth scroll to section
+      if (pathname === "/") {
+        const element = document.getElementById(href.replace("#", ""))
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" })
+        }
+      } else {
+        // If we're on a different page (like /admin), navigate to homepage with section
+        window.location.href = `/${href}`
+      }
+    } else {
+      // Navigate to external page
+      window.location.href = href
     }
     setIsOpen(false)
   }
@@ -45,23 +58,48 @@ export function MobileNav() {
             className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg"
           >
             <div className="flex flex-col items-center justify-center h-full gap-6 px-6">
-              {navItems.map((item, index) => (
-                <motion.button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  {t(`nav.${item.id}`)}
-                </motion.button>
-              ))}
+              {navItems.map((item, index) => {
+                const isPageRoute = item.href.startsWith("/")
+                const isActive = isPageRoute
+                  ? pathname === item.href
+                  : pathname === "/"
+                return (
+                  <motion.button
+                    key={item.href}
+                    onClick={() => scrollToSection(item.href)}
+                    className={`text-2xl font-semibold transition-colors ${isActive ? "text-primary" : "text-foreground hover:text-primary"
+                      }`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    {t(`nav.${item.id}`)}
+                  </motion.button>
+                )
+              })}
+
+              <motion.div
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: "80%" }}
+                transition={{ delay: 0.4 }}
+                className="h-px bg-border my-2"
+              />
+
+              <motion.button
+                onClick={() => scrollToSection("/admin")}
+                className={`text-2xl font-semibold transition-colors ${pathname === "/admin" ? "text-primary" : "text-foreground hover:text-primary"
+                  }`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navItems.length * 0.1 }}
+              >
+                {t("nav.admin")}
+              </motion.button>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: navItems.length * 0.1 + 0.1 }}
                 className="flex flex-col items-center gap-3 mt-4"
               >
                 <button
@@ -92,11 +130,10 @@ export function MobileNav() {
                               setLocale(loc)
                               setShowLanguages(false)
                             }}
-                            className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                              locale === loc
-                                ? "bg-primary text-primary-foreground font-medium"
-                                : "bg-muted hover:bg-muted/80 text-foreground"
-                            }`}
+                            className={`px-4 py-2 rounded-lg text-sm transition-colors ${locale === loc
+                              ? "bg-primary text-primary-foreground font-medium"
+                              : "bg-muted hover:bg-muted/80 text-foreground"
+                              }`}
                           >
                             {localeNames[loc]}
                           </button>

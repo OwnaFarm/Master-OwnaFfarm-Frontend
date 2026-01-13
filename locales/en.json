@@ -16,6 +16,7 @@
     "howItWorks": "How It Works",
     "features": "Features",
     "partners": "Partners",
+    "admin": "Admin",
     "settings": "Settings"
   },
   "hero": {
@@ -250,7 +251,49 @@
       "title": "NO RESULTS",
       "description": "No submissions found with status"
     },
-    "reviewed": "This submission has been"
+    "reviewed": "This submission has been",
+    "submissions": {
+      "1": {
+        "businessType": "Rice Farming",
+        "description": "Traditional rice farming using organic methods. Looking to expand operations and improve irrigation systems for better yield."
+      },
+      "2": {
+        "businessType": "Vegetable Farming",
+        "description": "Organic vegetable farming specializing in leafy greens and tomatoes. Seeking funding for greenhouse construction."
+      },
+      "3": {
+        "businessType": "Coffee Plantation",
+        "description": "Arabica coffee plantation in the highlands. Need support for processing equipment and certification for export."
+      },
+      "4": {
+        "businessType": "Fruit Orchard",
+        "description": "Mixed fruit orchard with mangoes, rambutans, and durians. Planning to implement drip irrigation and organic pest control."
+      },
+      "5": {
+        "businessType": "Livestock Farming",
+        "description": "Cattle and goat farming with focus on sustainable practices. Looking to expand breeding program and improve facilities."
+      },
+      "6": {
+        "businessType": "Herb & Spice Farming",
+        "description": "Cultivating traditional Indonesian herbs and spices including turmeric, ginger, and lemongrass for local and export markets."
+      },
+      "7": {
+        "businessType": "Aquaculture",
+        "description": "Freshwater fish farming specializing in tilapia and catfish. Need investment for pond expansion and water filtration systems."
+      },
+      "8": {
+        "businessType": "Flower Farming",
+        "description": "Commercial flower farming with roses, chrysanthemums, and orchids. Seeking support for climate-controlled greenhouse."
+      },
+      "9": {
+        "businessType": "Corn Farming",
+        "description": "Large-scale corn production using modern farming techniques. Looking to implement precision agriculture technology."
+      },
+      "10": {
+        "businessType": "Mushroom Cultivation",
+        "description": "Indoor mushroom cultivation focusing on oyster and shiitake varieties. Need funding for climate control and substrate preparation."
+      }
+    }
   },
   "settings": {
     "title": "Settings",

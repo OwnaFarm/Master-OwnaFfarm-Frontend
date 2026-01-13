@@ -1,0 +1,42 @@
+{
+    "1": {
+        "businessType": "Pertanian Padi",
+        "description": "Pertanian padi tradisional menggunakan metode organik. Ingin memperluas operasi dan meningkatkan sistem irigasi untuk hasil panen yang lebih baik."
+    },
+    "2": {
+        "businessType": "Pertanian Sayuran",
+        "description": "Pertanian sayuran organik yang mengkhususkan diri pada sayuran hijau dan tomat. Mencari dana untuk pembangunan rumah kaca."
+    },
+    "3": {
+        "businessType": "Perkebunan Kopi",
+        "description": "Perkebunan kopi Arabika di dataran tinggi. Membutuhkan dukungan untuk peralatan pengolahan dan sertifikasi ekspor."
+    },
+    "4": {
+        "businessType": "Kebun Buah",
+        "description": "Kebun buah campuran dengan mangga, rambutan, dan durian. Berencana menerapkan irigasi tetes dan pengendalian hama organik."
+    },
+    "5": {
+        "businessType": "Peternakan",
+        "description": "Peternakan sapi dan kambing dengan fokus pada praktik berkelanjutan. Ingin memperluas program pengembangbiakan dan meningkatkan fasilitas."
+    },
+    "6": {
+        "businessType": "Pertanian Rempah",
+        "description": "Menanam rempah-rempah tradisional Indonesia termasuk kunyit, jahe, dan serai untuk pasar lokal dan ekspor."
+    },
+    "7": {
+        "businessType": "Budidaya Ikan",
+        "description": "Budidaya ikan air tawar khusus nila dan lele. Membutuhkan investasi untuk perluasan kolam dan sistem filtrasi air."
+    },
+    "8": {
+        "businessType": "Pertanian Bunga",
+        "description": "Pertanian bunga komersial dengan mawar, krisan, dan anggrek. Mencari dukungan untuk rumah kaca dengan kontrol iklim."
+    },
+    "9": {
+        "businessType": "Pertanian Jagung",
+        "description": "Produksi jagung skala besar menggunakan teknik pertanian modern. Ingin menerapkan teknologi pertanian presisi."
+    },
+    "10": {
+        "businessType": "Budidaya Jamur",
+        "description": "Budidaya jamur dalam ruangan yang berfokus pada varietas tiram dan shiitake. Membutuhkan dana untuk kontrol iklim dan persiapan substrat."
+    }
+}

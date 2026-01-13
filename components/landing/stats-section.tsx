@@ -11,24 +11,26 @@ export function StatsSection() {
     {
       value: "$2.5M+",
       labelKey: "stats.totalInvested",
-      image: "/vault-safe-money-locked-minimalist.jpg",
+      image: "/kotakemas.png",
     },
     {
       value: "500+",
       labelKey: "stats.activeFarms",
-      image: "/farmer-person-agriculture-minimalist.jpg",
+      image: "/lahan.png",
     },
     {
       value: "$1.8M",
       labelKey: "stats.harvestCompleted",
-      image: "/coins-money-stack-minimalist.jpg",
+      image: "/panen.png",
     },
     {
       value: "18%",
       labelKey: "stats.investorReturns",
-      image: "/profit-chart-green-upward-trend-coins-harvest-cele.jpg",
+      image: "/uang.png",
     },
   ]
+
+
 
   return (
     <section className="py-16 bg-muted/50">
