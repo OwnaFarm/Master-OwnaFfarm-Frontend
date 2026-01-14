@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { usePrivy } from "@privy-io/react-auth"
 import { FloatingNav } from "@/components/landing/floating-nav"
 import { MobileNav } from "@/components/landing/mobile-nav"
 import { Footer } from "@/components/landing/footer"
@@ -8,11 +9,13 @@ import { DashboardStats } from "@/components/admin/dashboard-stats"
 import { SubmissionCard } from "@/components/admin/submission-card"
 import { dummySubmissions, type FarmerSubmission } from "@/lib/dummy-data"
 import { Button } from "@/components/ui/button"
+import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button"
 import { Filter } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 
 export default function AdminDashboard() {
     const { t } = useI18n()
+    const { ready, authenticated } = usePrivy()
     const [submissions, setSubmissions] = useState<FarmerSubmission[]>(dummySubmissions)
     const [filterStatus, setFilterStatus] = useState<"All" | "Pending" | "Verified" | "Rejected">("All")
 
@@ -71,132 +74,144 @@ export default function AdminDashboard() {
 
                     {/* Connect Wallet Button */}
                     <div className="flex justify-center my-8">
-                        <button className="pixel-button bg-primary text-primary-foreground font-pixel text-lg px-8 py-4 rounded-lg uppercase tracking-wider animate-pulse-cta hover:scale-105 transition-transform shadow-lg">
-                            🔗 Connect Wallet
-                        </button>
+                        <ConnectWalletButton />
                     </div>
 
-                    {/* Filters */}
-                    <div className="flex flex-wrap items-center gap-3 mb-8">
-                        <div className="flex items-center gap-2 text-foreground pixel-border bg-card px-4 py-2 rounded-lg">
-                            <Filter className="w-4 h-4" />
-                            <span className="font-pixel text-xs uppercase">{t("admin.filter")}:</span>
+                    {/* Show content only if authenticated */}
+                    {!ready ? (
+                        <div className="pixel-border bg-card p-12 text-center rounded-lg">
+                            <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide animate-pulse">⏳ Loading... ⏳</p>
                         </div>
-                        {["All", "Pending", "Verified", "Rejected"].map((status) => (
-                            <Button
-                                key={status}
-                                onClick={() => setFilterStatus(status as typeof filterStatus)}
-                                variant={filterStatus === status ? "default" : "outline"}
-                                className={`pixel-button font-pixel text-xs uppercase tracking-wider rounded-md ${filterStatus === status
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-card text-foreground hover:bg-muted"
-                                    }`}
-                            >
-                                {t(`admin.filters.${status.toLowerCase()}`)}
-                            </Button>
-                        ))}
-                    </div>
-
-                    {/* Submissions Table */}
-                    {filteredSubmissions.length > 0 ? (
-                        <div className="pixel-border bg-card rounded-lg overflow-hidden">
-                            <div className="overflow-x-auto">
-                                <table className="w-full">
-                                    <thead className="bg-muted/50">
-                                        <tr className="border-b border-border">
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Farmer</th>
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">{t("admin.submission.businessType")}</th>
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden md:table-cell">Location</th>
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden lg:table-cell">{t("admin.submission.experience")}</th>
-                                            <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Status</th>
-                                            <th className="text-center p-4 font-pixel text-xs uppercase text-foreground">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredSubmissions.map((submission, index) => (
-                                            <tr
-                                                key={submission.id}
-                                                className={`border-b border-border hover:bg-muted/50 transition-colors ${index % 2 === 0 ? 'bg-background' : 'bg-muted/20'
-                                                    }`}
-                                            >
-                                                <td className="p-4">
-                                                    <div>
-                                                        <p className="font-semibold text-base text-foreground mb-1">{submission.farmerName}</p>
-                                                        <p className="text-xs text-muted-foreground">{submission.email}</p>
-                                                        <p className="text-xs text-muted-foreground">{submission.phone}</p>
-                                                    </div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <div>
-                                                        <p className="font-medium text-sm text-foreground mb-1">{t(`admin.submissions.${submission.id}.businessType`)}</p>
-                                                        <p className="text-xs text-muted-foreground line-clamp-2">{t(`admin.submissions.${submission.id}.description`)}</p>
-                                                    </div>
-                                                </td>
-                                                <td className="p-4 hidden md:table-cell">
-                                                    <div className="text-sm text-muted-foreground">
-                                                        <p>{submission.location.district}</p>
-                                                        <p>{submission.location.city}</p>
-                                                    </div>
-                                                </td>
-                                                <td className="p-4 hidden lg:table-cell">
-                                                    <div className="text-sm text-muted-foreground">
-                                                        <p>{submission.yearsOfExperience} years</p>
-                                                        <p>{submission.landSize} hectares</p>
-                                                    </div>
-                                                </td>
-                                                <td className="p-4">
-                                                    {submission.status === "Verified" && (
-                                                        <span className="inline-block bg-primary text-primary-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg">
-                                                            ✓ {t("admin.status.verified")}
-                                                        </span>
-                                                    )}
-                                                    {submission.status === "Rejected" && (
-                                                        <span className="inline-block bg-destructive text-destructive-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg">
-                                                            ✗ {t("admin.status.rejected")}
-                                                        </span>
-                                                    )}
-                                                    {submission.status === "Pending" && (
-                                                        <span className="inline-block bg-secondary text-secondary-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg animate-pulse-cta">
-                                                            ⏳ {t("admin.status.pending")}
-                                                        </span>
-                                                    )}
-                                                </td>
-                                                <td className="p-4">
-                                                    {submission.status === "Pending" ? (
-                                                        <div className="flex gap-2 justify-center">
-                                                            <Button
-                                                                onClick={() => handleApprove(submission.id)}
-                                                                size="sm"
-                                                                className="pixel-button bg-primary text-primary-foreground hover:bg-primary/90 font-pixel text-[10px] rounded-md px-3 py-1"
-                                                            >
-                                                                ✓
-                                                            </Button>
-                                                            <Button
-                                                                onClick={() => handleReject(submission.id)}
-                                                                size="sm"
-                                                                variant="destructive"
-                                                                className="pixel-button font-pixel text-[10px] rounded-md px-3 py-1"
-                                                            >
-                                                                ✗
-                                                            </Button>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="text-center text-xs text-muted-foreground">
-                                                            {submission.status}
-                                                        </div>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                    ) : !authenticated ? (
+                        <div className="pixel-border bg-card p-12 text-center rounded-lg">
+                            <p className="font-pixel text-sm text-foreground uppercase tracking-wide mb-4">🔒 Authentication Required 🔒</p>
+                            <p className="text-muted-foreground text-base mb-6">Please connect your wallet to access the admin dashboard</p>
                         </div>
                     ) : (
-                        <div className="pixel-border bg-card p-12 text-center rounded-lg">
-                            <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide mb-2">⚠️ {t("admin.emptyState.title")} ⚠️</p>
-                            <p className="text-muted-foreground text-sm">{t("admin.emptyState.description")}: {t(`admin.filters.${filterStatus.toLowerCase()}`)}</p>
-                        </div>
+                        <>
+                            {/* Filters */}
+                            <div className="flex flex-wrap items-center gap-3 mb-8">
+                                <div className="flex items-center gap-2 text-foreground pixel-border bg-card px-4 py-2 rounded-lg">
+                                    <Filter className="w-4 h-4" />
+                                    <span className="font-pixel text-xs uppercase">{t("admin.filter")}:</span>
+                                </div>
+                                {["All", "Pending", "Verified", "Rejected"].map((status) => (
+                                    <Button
+                                        key={status}
+                                        onClick={() => setFilterStatus(status as typeof filterStatus)}
+                                        variant={filterStatus === status ? "default" : "outline"}
+                                        className={`pixel-button font-pixel text-xs uppercase tracking-wider rounded-md ${filterStatus === status
+                                            ? "bg-primary text-primary-foreground"
+                                            : "bg-card text-foreground hover:bg-muted"
+                                            }`}
+                                    >
+                                        {t(`admin.filters.${status.toLowerCase()}`)}
+                                    </Button>
+                                ))}
+                            </div>
+
+                            {/* Submissions Table */}
+                            {filteredSubmissions.length > 0 ? (
+                                <div className="pixel-border bg-card rounded-lg overflow-hidden">
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead className="bg-muted/50">
+                                                <tr className="border-b border-border">
+                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Farmer</th>
+                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">{t("admin.submission.businessType")}</th>
+                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden md:table-cell">Location</th>
+                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden lg:table-cell">{t("admin.submission.experience")}</th>
+                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Status</th>
+                                                    <th className="text-center p-4 font-pixel text-xs uppercase text-foreground">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredSubmissions.map((submission, index) => (
+                                                    <tr
+                                                        key={submission.id}
+                                                        className={`border-b border-border hover:bg-muted/50 transition-colors ${index % 2 === 0 ? 'bg-background' : 'bg-muted/20'
+                                                            }`}
+                                                    >
+                                                        <td className="p-4">
+                                                            <div>
+                                                                <p className="font-semibold text-base text-foreground mb-1">{submission.farmerName}</p>
+                                                                <p className="text-xs text-muted-foreground">{submission.email}</p>
+                                                                <p className="text-xs text-muted-foreground">{submission.phone}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-4">
+                                                            <div>
+                                                                <p className="font-medium text-sm text-foreground mb-1">{t(`admin.submissions.${submission.id}.businessType`)}</p>
+                                                                <p className="text-xs text-muted-foreground line-clamp-2">{t(`admin.submissions.${submission.id}.description`)}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-4 hidden md:table-cell">
+                                                            <div className="text-sm text-muted-foreground">
+                                                                <p>{submission.location.district}</p>
+                                                                <p>{submission.location.city}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-4 hidden lg:table-cell">
+                                                            <div className="text-sm text-muted-foreground">
+                                                                <p>{submission.yearsOfExperience} years</p>
+                                                                <p>{submission.landSize} hectares</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-4">
+                                                            {submission.status === "Verified" && (
+                                                                <span className="inline-block bg-primary text-primary-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg">
+                                                                    ✓ {t("admin.status.verified")}
+                                                                </span>
+                                                            )}
+                                                            {submission.status === "Rejected" && (
+                                                                <span className="inline-block bg-destructive text-destructive-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg">
+                                                                    ✗ {t("admin.status.rejected")}
+                                                                </span>
+                                                            )}
+                                                            {submission.status === "Pending" && (
+                                                                <span className="inline-block bg-secondary text-secondary-foreground pixel-border font-pixel text-[10px] px-3 py-1.5 rounded-lg animate-pulse-cta">
+                                                                    ⏳ {t("admin.status.pending")}
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                        <td className="p-4">
+                                                            {submission.status === "Pending" ? (
+                                                                <div className="flex gap-2 justify-center">
+                                                                    <Button
+                                                                        onClick={() => handleApprove(submission.id)}
+                                                                        size="sm"
+                                                                        className="pixel-button bg-primary text-primary-foreground hover:bg-primary/90 font-pixel text-[10px] rounded-md px-3 py-1"
+                                                                    >
+                                                                        ✓
+                                                                    </Button>
+                                                                    <Button
+                                                                        onClick={() => handleReject(submission.id)}
+                                                                        size="sm"
+                                                                        variant="destructive"
+                                                                        className="pixel-button font-pixel text-[10px] rounded-md px-3 py-1"
+                                                                    >
+                                                                        ✗
+                                                                    </Button>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="text-center text-xs text-muted-foreground">
+                                                                    {submission.status}
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="pixel-border bg-card p-12 text-center rounded-lg">
+                                    <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide mb-2">⚠️ {t("admin.emptyState.title")} ⚠️</p>
+                                    <p className="text-muted-foreground text-sm">{t("admin.emptyState.description")}: {t(`admin.filters.${filterStatus.toLowerCase()}`)}</p>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             </section>
