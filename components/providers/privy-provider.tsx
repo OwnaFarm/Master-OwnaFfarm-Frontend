@@ -18,7 +18,7 @@ export function PrivyProviderWrapper({ children }: { children: React.ReactNode }
                 appearance: {
                     theme: "dark",
                     accentColor: "#3d7a3d",
-                    logo: "/logo.png",
+                    logo: "/ownafarm-logo.png",
                 },
                 // Login methods config
                 loginMethods: [
