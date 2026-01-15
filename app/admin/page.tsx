@@ -8,9 +8,10 @@ import { Footer } from "@/components/landing/footer"
 import { DashboardStats } from "@/components/admin/dashboard-stats"
 import { Button } from "@/components/ui/button"
 import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button"
-import { Filter, RefreshCw, Loader2 } from "lucide-react"
+import { Filter, RefreshCw, Loader2, CheckCircle, XCircle, ExternalLink } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { getFarmers, approveFarmer, rejectFarmer, type Farmer } from "@/lib/api"
+import { useOwnaFarmContract } from "@/hooks/use-owna-farm-contract"
 
 // Map API status to display status
 type DisplayStatus = "Pending" | "Verified" | "Rejected"
@@ -41,6 +42,12 @@ const businessTypeLabels: Record<string, string> = {
     'cooperative': 'Koperasi'
 }
 
+interface TransactionStatus {
+    type: 'pending' | 'confirming' | 'success' | 'error'
+    message: string
+    hash?: string
+}
+
 export default function AdminDashboard() {
     const { t } = useI18n()
     const { ready, authenticated } = usePrivy()
@@ -49,6 +56,10 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true)
     const [actionLoading, setActionLoading] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const [txStatus, setTxStatus] = useState<TransactionStatus | null>(null)
+
+    // Smart contract hook
+    const { approveInvoice, rejectInvoice, waitForTransaction } = useOwnaFarmContract()
 
     // Fetch farmers from API
     const fetchFarmers = async () => {
@@ -72,41 +83,95 @@ export default function AdminDashboard() {
         }
     }, [authenticated, filterStatus])
 
-    const handleApprove = async (id: string) => {
-        setActionLoading(id)
+    // Handle Approve: Call smart contract first, then notify backend
+    const handleApprove = async (farmerId: string, tokenId?: number) => {
+        if (!tokenId) {
+            alert("Token ID not available for this farmer. Please ensure the farmer has submitted an invoice.")
+            return
+        }
+
+        setActionLoading(farmerId)
+        setTxStatus({ type: 'pending', message: 'Waiting for wallet confirmation...' })
+
         try {
-            await approveFarmer(id)
+            // Step 1: Call smart contract
+            setTxStatus({ type: 'pending', message: 'Signing transaction...' })
+            const hash = await approveInvoice(BigInt(tokenId))
+
+            setTxStatus({ type: 'confirming', message: 'Waiting for confirmation...', hash })
+
+            // Step 2: Wait for transaction to be mined
+            await waitForTransaction(hash)
+
+            setTxStatus({ type: 'success', message: 'Transaction confirmed!', hash })
+
+            // Step 3: Notify backend
+            await approveFarmer(farmerId)
+
             // Update local state
             setFarmers((prev) =>
                 prev.map((farmer) =>
-                    farmer.id === id
+                    farmer.id === farmerId
                         ? { ...farmer, status: "approved" as const }
                         : farmer
                 )
             )
-        } catch (err) {
+
+            setTimeout(() => setTxStatus(null), 3000)
+        } catch (err: any) {
             console.error("Failed to approve farmer:", err)
-            alert("Failed to approve farmer. Please try again.")
+            setTxStatus({
+                type: 'error',
+                message: err?.shortMessage || err?.message || 'Transaction failed'
+            })
+            setTimeout(() => setTxStatus(null), 5000)
         } finally {
             setActionLoading(null)
         }
     }
 
-    const handleReject = async (id: string) => {
-        setActionLoading(id)
+    // Handle Reject: Call smart contract first, then notify backend
+    const handleReject = async (farmerId: string, tokenId?: number) => {
+        if (!tokenId) {
+            alert("Token ID not available for this farmer. Please ensure the farmer has submitted an invoice.")
+            return
+        }
+
+        setActionLoading(farmerId)
+        setTxStatus({ type: 'pending', message: 'Waiting for wallet confirmation...' })
+
         try {
-            await rejectFarmer(id)
+            // Step 1: Call smart contract
+            setTxStatus({ type: 'pending', message: 'Signing transaction...' })
+            const hash = await rejectInvoice(BigInt(tokenId))
+
+            setTxStatus({ type: 'confirming', message: 'Waiting for confirmation...', hash })
+
+            // Step 2: Wait for transaction to be mined
+            await waitForTransaction(hash)
+
+            setTxStatus({ type: 'success', message: 'Transaction confirmed!', hash })
+
+            // Step 3: Notify backend
+            await rejectFarmer(farmerId)
+
             // Update local state
             setFarmers((prev) =>
                 prev.map((farmer) =>
-                    farmer.id === id
+                    farmer.id === farmerId
                         ? { ...farmer, status: "rejected" as const }
                         : farmer
                 )
             )
-        } catch (err) {
+
+            setTimeout(() => setTxStatus(null), 3000)
+        } catch (err: any) {
             console.error("Failed to reject farmer:", err)
-            alert("Failed to reject farmer. Please try again.")
+            setTxStatus({
+                type: 'error',
+                message: err?.shortMessage || err?.message || 'Transaction failed'
+            })
+            setTimeout(() => setTxStatus(null), 5000)
         } finally {
             setActionLoading(null)
         }
@@ -115,6 +180,7 @@ export default function AdminDashboard() {
     // Convert farmers to submission format for stats
     const submissions = farmers.map(farmer => ({
         id: farmer.id,
+        tokenId: (farmer as any).token_id, // Backend should provide this
         farmerName: farmer.full_name,
         businessType: businessTypeLabels[farmer.business_type] || farmer.business_type,
         description: `${farmer.crops_expertise?.join(", ") || "N/A"}`,
@@ -136,6 +202,39 @@ export default function AdminDashboard() {
         <main className="min-h-screen bg-background">
             <FloatingNav />
             <MobileNav />
+
+            {/* Transaction Status Toast */}
+            {txStatus && (
+                <div className={`fixed top-20 right-4 z-50 pixel-border rounded-lg p-4 shadow-lg max-w-sm ${txStatus.type === 'error' ? 'bg-destructive/10 border-destructive' :
+                        txStatus.type === 'success' ? 'bg-primary/10 border-primary' :
+                            'bg-secondary/10 border-secondary'
+                    }`}>
+                    <div className="flex items-start gap-3">
+                        {txStatus.type === 'pending' && <Loader2 className="w-5 h-5 animate-spin text-secondary" />}
+                        {txStatus.type === 'confirming' && <Loader2 className="w-5 h-5 animate-spin text-primary" />}
+                        {txStatus.type === 'success' && <CheckCircle className="w-5 h-5 text-primary" />}
+                        {txStatus.type === 'error' && <XCircle className="w-5 h-5 text-destructive" />}
+                        <div className="flex-1">
+                            <p className="font-pixel text-xs uppercase mb-1">
+                                {txStatus.type === 'pending' ? 'Processing' :
+                                    txStatus.type === 'confirming' ? 'Confirming' :
+                                        txStatus.type === 'success' ? 'Success' : 'Error'}
+                            </p>
+                            <p className="text-sm text-muted-foreground">{txStatus.message}</p>
+                            {txStatus.hash && (
+                                <a
+                                    href={`https://sepolia.mantlescan.xyz/tx/${txStatus.hash}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-primary hover:underline flex items-center gap-1 mt-1"
+                                >
+                                    View on Explorer <ExternalLink className="w-3 h-3" />
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Hero Section */}
             <section className="pt-32 pb-16 px-6 lg:px-8">
@@ -227,7 +326,7 @@ export default function AdminDashboard() {
                                                     <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Farmer</th>
                                                     <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">{t("admin.submission.businessType")}</th>
                                                     <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden md:table-cell">Location</th>
-                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden lg:table-cell">{t("admin.submission.experience")}</th>
+                                                    <th className="text-left p-4 font-pixel text-xs uppercase text-foreground hidden lg:table-cell">Token ID</th>
                                                     <th className="text-left p-4 font-pixel text-xs uppercase text-foreground">Status</th>
                                                     <th className="text-center p-4 font-pixel text-xs uppercase text-foreground">Actions</th>
                                                 </tr>
@@ -259,8 +358,8 @@ export default function AdminDashboard() {
                                                             </div>
                                                         </td>
                                                         <td className="p-4 hidden lg:table-cell">
-                                                            <div className="text-sm text-muted-foreground">
-                                                                <p>{submission.yearsOfExperience} years</p>
+                                                            <div className="text-sm text-muted-foreground font-mono">
+                                                                {submission.tokenId ? `#${submission.tokenId}` : 'N/A'}
                                                             </div>
                                                         </td>
                                                         <td className="p-4">
@@ -284,19 +383,21 @@ export default function AdminDashboard() {
                                                             {submission.status === "Pending" ? (
                                                                 <div className="flex gap-2 justify-center">
                                                                     <Button
-                                                                        onClick={() => handleApprove(submission.id)}
+                                                                        onClick={() => handleApprove(submission.id, submission.tokenId)}
                                                                         size="sm"
-                                                                        disabled={actionLoading === submission.id}
+                                                                        disabled={actionLoading === submission.id || !submission.tokenId}
                                                                         className="pixel-button bg-primary text-primary-foreground hover:bg-primary/90 font-pixel text-[10px] rounded-md px-3 py-1"
+                                                                        title={!submission.tokenId ? "Token ID required" : "Approve"}
                                                                     >
                                                                         {actionLoading === submission.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "✓"}
                                                                     </Button>
                                                                     <Button
-                                                                        onClick={() => handleReject(submission.id)}
+                                                                        onClick={() => handleReject(submission.id, submission.tokenId)}
                                                                         size="sm"
                                                                         variant="destructive"
-                                                                        disabled={actionLoading === submission.id}
+                                                                        disabled={actionLoading === submission.id || !submission.tokenId}
                                                                         className="pixel-button font-pixel text-[10px] rounded-md px-3 py-1"
+                                                                        title={!submission.tokenId ? "Token ID required" : "Reject"}
                                                                     >
                                                                         {actionLoading === submission.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "✗"}
                                                                     </Button>

@@ -275,6 +275,7 @@ export interface Farmer {
   years_of_experience: number
   crops_expertise: string[]
   status: 'pending' | 'approved' | 'rejected'
+  token_id?: number  // NFT token ID from smart contract
   documents: FarmerDocument[]
   created_at: string
   updated_at: string
