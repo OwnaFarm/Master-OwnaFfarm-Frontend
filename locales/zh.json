@@ -126,6 +126,13 @@
     "success": {
       "title": "注册已提交！",
       "description": "感谢您在 OwnaFarm 注册。我们的团队将审核您的申请，并在 2-3 个工作日内与您联系。"
+    },
+    "error": {
+      "generic": "提交注册失败。请重试。",
+      "network": "网络错误。请检查您的连接并重试。",
+      "validation": "请检查表单中的错误并重试。",
+      "server": "服务器错误。请稍后重试。",
+      "timeout": "请求超时。请重试。"
     }
   },
   "personalInfo": {

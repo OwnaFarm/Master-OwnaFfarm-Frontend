@@ -126,6 +126,13 @@
     "success": {
       "title": "Registration Submitted!",
       "description": "Thank you for registering with OwnaFarm. Our team will review your application and contact you within 2-3 business days."
+    },
+    "error": {
+      "generic": "Failed to submit registration. Please try again.",
+      "network": "Network error. Please check your connection and try again.",
+      "validation": "Please check your form for errors and try again.",
+      "server": "Server error. Please try again later.",
+      "timeout": "Request timed out. Please try again."
     }
   },
   "personalInfo": {

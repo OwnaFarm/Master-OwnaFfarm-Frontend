@@ -126,6 +126,13 @@
     "success": {
       "title": "Pendaftaran Terkirim!",
       "description": "Terima kasih telah mendaftar di OwnaFarm. Tim kami akan meninjau aplikasi Anda dan menghubungi Anda dalam 2-3 hari kerja."
+    },
+    "error": {
+      "generic": "Gagal mengirim pendaftaran. Silakan coba lagi.",
+      "network": "Kesalahan jaringan. Periksa koneksi Anda dan coba lagi.",
+      "validation": "Periksa formulir Anda untuk kesalahan dan coba lagi.",
+      "server": "Kesalahan server. Silakan coba lagi nanti.",
+      "timeout": "Permintaan habis waktu. Silakan coba lagi."
     }
   },
   "personalInfo": {

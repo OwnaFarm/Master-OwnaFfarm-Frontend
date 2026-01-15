@@ -8,6 +8,7 @@ import { DocumentsStep } from "./steps/documents-step"
 import { ReviewStep } from "./steps/review-step"
 import { Check } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import { registerFarmer, ApiError } from "@/lib/api"
 
 export interface FarmerFormData {
   // Personal Info
@@ -98,9 +99,36 @@ export function RegisterFarmForm() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    setIsComplete(true)
+    try {
+      const response = await registerFarmer(formData)
+
+      if (response.success) {
+        setIsComplete(true)
+      } else {
+        // Handle unsuccessful response
+        alert(response.message || t("registerFarm.error.generic"))
+      }
+    } catch (error) {
+      console.error("Registration error:", error)
+
+      let errorMessage = t("registerFarm.error.generic")
+
+      if (error instanceof ApiError) {
+        if (error.statusCode === 400) {
+          errorMessage = t("registerFarm.error.validation")
+        } else if (error.statusCode === 500) {
+          errorMessage = t("registerFarm.error.server")
+        } else if (error.message) {
+          errorMessage = error.message
+        }
+      } else if (error instanceof Error && error.message.includes("fetch")) {
+        errorMessage = t("registerFarm.error.network")
+      }
+
+      alert(errorMessage)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isComplete) {
@@ -139,10 +167,10 @@ export function RegisterFarmForm() {
               <div className="flex flex-col items-center">
                 <div
                   className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition-colors ${currentStep > step.id
+                    ? "bg-primary text-primary-foreground"
+                    : currentStep === step.id
                       ? "bg-primary text-primary-foreground"
-                      : currentStep === step.id
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                      : "bg-muted text-muted-foreground"
                     }`}
                 >
                   {currentStep > step.id ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : step.id}

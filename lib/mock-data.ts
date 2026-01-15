@@ -51,7 +51,7 @@ const addresses = [
   "Jl. Ladang Hijau No. 23, Komplek Agraria",
 ]
 
-const businessTypes = ["Individual", "CV", "PT", "Koperasi"]
+const businessTypes = ["individual", "cv", "pt", "ud", "cooperative"]
 const banks = ["BCA", "BRI", "BNI", "Mandiri", "CIMB Niaga", "Bank Jago", "Bank Danamon", "Bank Permata"]
 const provinces = [
   "Jawa Barat",
@@ -130,7 +130,7 @@ export function generateBusinessInfo() {
 
   return {
     businessType,
-    businessName: businessType !== "Individual" ? `${randomItem(["PT", "CV"])} ${lastName} Agro Makmur` : "",
+    businessName: businessType !== "individual" ? `${randomItem(["PT", "CV"])} ${lastName} Agro Makmur` : "",
     npwp: randomDigits(15),
     bankName: randomItem(banks),
     bankAccountNumber: randomDigits(12),

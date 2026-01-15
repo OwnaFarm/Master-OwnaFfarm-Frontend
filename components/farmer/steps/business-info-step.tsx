@@ -18,7 +18,14 @@ interface BusinessInfoStepProps {
   onPrev: () => void
 }
 
-const businessTypes = ["Individual", "CV", "PT", "Koperasi"]
+
+const businessTypes = [
+  { value: "individual", label: "Individual" },
+  { value: "cv", label: "CV" },
+  { value: "pt", label: "PT" },
+  { value: "ud", label: "UD (Usaha Dagang)" },
+  { value: "cooperative", label: "Koperasi" }
+]
 const banks = ["BCA", "BRI", "BNI", "Mandiri", "CIMB Niaga", "Bank Jago", "Bank Danamon", "Bank Permata"]
 const cropOptions = [
   "Padi (Rice)",
@@ -115,8 +122,8 @@ export function BusinessInfoStep({ formData, updateFormData, onNext, onPrev }: B
             </SelectTrigger>
             <SelectContent>
               {businessTypes.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
                 </SelectItem>
               ))}
             </SelectContent>
