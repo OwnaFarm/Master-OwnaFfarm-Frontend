@@ -6,6 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Empty turbopack config to allow webpack config to work
+  turbopack: {},
   webpack: (config, { isServer }) => {
     // Ignore 'tap' module which is a test dependency
     config.resolve.fallback = {
