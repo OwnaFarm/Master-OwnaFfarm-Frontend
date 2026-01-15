@@ -6,14 +6,23 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Empty turbopack config to allow webpack config to work
-  turbopack: {},
+  // Exclude test files from build
   webpack: (config, { isServer }) => {
-    // Ignore 'tap' module which is a test dependency
+    // Ignore test-related modules
     config.resolve.fallback = {
       ...config.resolve.fallback,
       tap: false,
+      desm: false,
     }
+
+    // Exclude test files from bundling
+    config.module = config.module || {}
+    config.module.rules = config.module.rules || []
+    config.module.rules.push({
+      test: /\.test\.(js|mjs|ts|tsx)$/,
+      loader: 'ignore-loader',
+    })
+
     return config
   },
 }
