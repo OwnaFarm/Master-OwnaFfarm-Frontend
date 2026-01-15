@@ -34,10 +34,13 @@ export function CtaSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
+              asChild
               className="pixel-button bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg font-pixel uppercase rounded-md"
             >
-              <Gamepad2 className="w-5 h-5 mr-2" />
-              {t("cta.launchGame")}
+              <Link href="https://ownafarm-investor.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <Gamepad2 className="w-5 h-5 mr-2" />
+                {t("cta.launchGame")}
+              </Link>
             </Button>
             <Button
               size="lg"

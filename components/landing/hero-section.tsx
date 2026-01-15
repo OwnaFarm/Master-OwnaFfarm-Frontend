@@ -140,10 +140,13 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button
                 size="lg"
+                asChild
                 className="pixel-button animate-pulse-cta bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-pixel uppercase rounded-md shadow-lg"
               >
-                <Gamepad2 className="w-5 h-5 mr-2" />
-                {t("hero.launchGame")}
+                <Link href="https://ownafarm-investor.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  <Gamepad2 className="w-5 h-5 mr-2" />
+                  {t("hero.launchGame")}
+                </Link>
               </Button>
               <Button
                 size="lg"
