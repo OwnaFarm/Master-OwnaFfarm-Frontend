@@ -1,54 +1,136 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { usePrivy } from "@privy-io/react-auth"
 import { FloatingNav } from "@/components/landing/floating-nav"
 import { MobileNav } from "@/components/landing/mobile-nav"
 import { Footer } from "@/components/landing/footer"
 import { DashboardStats } from "@/components/admin/dashboard-stats"
-import { SubmissionCard } from "@/components/admin/submission-card"
-import { dummySubmissions, type FarmerSubmission } from "@/lib/dummy-data"
 import { Button } from "@/components/ui/button"
 import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button"
-import { Filter } from "lucide-react"
+import { Filter, RefreshCw, Loader2 } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import { getFarmers, approveFarmer, rejectFarmer, type Farmer } from "@/lib/api"
+
+// Map API status to display status
+type DisplayStatus = "Pending" | "Verified" | "Rejected"
+const mapStatus = (status: string): DisplayStatus => {
+    switch (status) {
+        case 'approved': return 'Verified'
+        case 'rejected': return 'Rejected'
+        default: return 'Pending'
+    }
+}
+
+// Map display status to API status
+const mapToApiStatus = (status: string): string => {
+    switch (status) {
+        case 'Verified': return 'approved'
+        case 'Rejected': return 'rejected'
+        case 'Pending': return 'pending'
+        default: return ''
+    }
+}
+
+// Business type display mapping
+const businessTypeLabels: Record<string, string> = {
+    'individual': 'Individual',
+    'cv': 'CV',
+    'pt': 'PT',
+    'ud': 'UD',
+    'cooperative': 'Koperasi'
+}
 
 export default function AdminDashboard() {
     const { t } = useI18n()
     const { ready, authenticated } = usePrivy()
-    const [submissions, setSubmissions] = useState<FarmerSubmission[]>(dummySubmissions)
+    const [farmers, setFarmers] = useState<Farmer[]>([])
     const [filterStatus, setFilterStatus] = useState<"All" | "Pending" | "Verified" | "Rejected">("All")
+    const [loading, setLoading] = useState(true)
+    const [actionLoading, setActionLoading] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
-    const handleApprove = (id: string) => {
-        setSubmissions((prev) =>
-            prev.map((sub) =>
-                sub.id === id
-                    ? {
-                        ...sub,
-                        status: "Verified" as const,
-                        reviewedAt: new Date(),
-                    }
-                    : sub,
-            ),
-        )
+    // Fetch farmers from API
+    const fetchFarmers = async () => {
+        setLoading(true)
+        setError(null)
+        try {
+            const apiStatus = filterStatus === "All" ? undefined : mapToApiStatus(filterStatus)
+            const data = await getFarmers(apiStatus)
+            setFarmers(data)
+        } catch (err) {
+            console.error("Failed to fetch farmers:", err)
+            setError("Failed to load farmers. Please try again.")
+        } finally {
+            setLoading(false)
+        }
     }
 
-    const handleReject = (id: string) => {
-        setSubmissions((prev) =>
-            prev.map((sub) =>
-                sub.id === id
-                    ? {
-                        ...sub,
-                        status: "Rejected" as const,
-                        reviewedAt: new Date(),
-                    }
-                    : sub,
-            ),
-        )
+    useEffect(() => {
+        if (authenticated) {
+            fetchFarmers()
+        }
+    }, [authenticated, filterStatus])
+
+    const handleApprove = async (id: string) => {
+        setActionLoading(id)
+        try {
+            await approveFarmer(id)
+            // Update local state
+            setFarmers((prev) =>
+                prev.map((farmer) =>
+                    farmer.id === id
+                        ? { ...farmer, status: "approved" as const }
+                        : farmer
+                )
+            )
+        } catch (err) {
+            console.error("Failed to approve farmer:", err)
+            alert("Failed to approve farmer. Please try again.")
+        } finally {
+            setActionLoading(null)
+        }
     }
 
-    const filteredSubmissions =
-        filterStatus === "All" ? submissions : submissions.filter((sub) => sub.status === filterStatus)
+    const handleReject = async (id: string) => {
+        setActionLoading(id)
+        try {
+            await rejectFarmer(id)
+            // Update local state
+            setFarmers((prev) =>
+                prev.map((farmer) =>
+                    farmer.id === id
+                        ? { ...farmer, status: "rejected" as const }
+                        : farmer
+                )
+            )
+        } catch (err) {
+            console.error("Failed to reject farmer:", err)
+            alert("Failed to reject farmer. Please try again.")
+        } finally {
+            setActionLoading(null)
+        }
+    }
+
+    // Convert farmers to submission format for stats
+    const submissions = farmers.map(farmer => ({
+        id: farmer.id,
+        farmerName: farmer.full_name,
+        businessType: businessTypeLabels[farmer.business_type] || farmer.business_type,
+        description: `${farmer.crops_expertise?.join(", ") || "N/A"}`,
+        location: { district: farmer.district, city: farmer.city },
+        email: farmer.email,
+        phone: farmer.phone_number,
+        landSize: "N/A",
+        yearsOfExperience: farmer.years_of_experience,
+        status: mapStatus(farmer.status),
+        submittedAt: new Date(farmer.created_at),
+        reviewedAt: farmer.reviewed_at ? new Date(farmer.reviewed_at) : undefined
+    }))
+
+    const filteredSubmissions = filterStatus === "All"
+        ? submissions
+        : submissions.filter((sub) => sub.status === filterStatus)
 
     return (
         <main className="min-h-screen bg-background">
@@ -108,10 +190,35 @@ export default function AdminDashboard() {
                                         {t(`admin.filters.${status.toLowerCase()}`)}
                                     </Button>
                                 ))}
+                                <Button
+                                    onClick={fetchFarmers}
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={loading}
+                                    className="pixel-button font-pixel text-xs uppercase tracking-wider rounded-md"
+                                >
+                                    <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                                    Refresh
+                                </Button>
                             </div>
 
-                            {/* Submissions Table */}
-                            {filteredSubmissions.length > 0 ? (
+                            {/* Error State */}
+                            {error && (
+                                <div className="pixel-border bg-destructive/10 border-destructive p-4 text-center rounded-lg mb-8">
+                                    <p className="text-destructive">{error}</p>
+                                    <Button onClick={fetchFarmers} variant="outline" size="sm" className="mt-2">
+                                        Try Again
+                                    </Button>
+                                </div>
+                            )}
+
+                            {/* Loading State */}
+                            {loading ? (
+                                <div className="pixel-border bg-card p-12 text-center rounded-lg">
+                                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+                                    <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide">Loading farmers...</p>
+                                </div>
+                            ) : filteredSubmissions.length > 0 ? (
                                 <div className="pixel-border bg-card rounded-lg overflow-hidden">
                                     <div className="overflow-x-auto">
                                         <table className="w-full">
@@ -141,8 +248,8 @@ export default function AdminDashboard() {
                                                         </td>
                                                         <td className="p-4">
                                                             <div>
-                                                                <p className="font-medium text-sm text-foreground mb-1">{t(`admin.submissions.${submission.id}.businessType`)}</p>
-                                                                <p className="text-xs text-muted-foreground line-clamp-2">{t(`admin.submissions.${submission.id}.description`)}</p>
+                                                                <p className="font-medium text-sm text-foreground mb-1">{submission.businessType}</p>
+                                                                <p className="text-xs text-muted-foreground line-clamp-2">{submission.description}</p>
                                                             </div>
                                                         </td>
                                                         <td className="p-4 hidden md:table-cell">
@@ -154,7 +261,6 @@ export default function AdminDashboard() {
                                                         <td className="p-4 hidden lg:table-cell">
                                                             <div className="text-sm text-muted-foreground">
                                                                 <p>{submission.yearsOfExperience} years</p>
-                                                                <p>{submission.landSize} hectares</p>
                                                             </div>
                                                         </td>
                                                         <td className="p-4">
@@ -180,17 +286,19 @@ export default function AdminDashboard() {
                                                                     <Button
                                                                         onClick={() => handleApprove(submission.id)}
                                                                         size="sm"
+                                                                        disabled={actionLoading === submission.id}
                                                                         className="pixel-button bg-primary text-primary-foreground hover:bg-primary/90 font-pixel text-[10px] rounded-md px-3 py-1"
                                                                     >
-                                                                        ✓
+                                                                        {actionLoading === submission.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "✓"}
                                                                     </Button>
                                                                     <Button
                                                                         onClick={() => handleReject(submission.id)}
                                                                         size="sm"
                                                                         variant="destructive"
+                                                                        disabled={actionLoading === submission.id}
                                                                         className="pixel-button font-pixel text-[10px] rounded-md px-3 py-1"
                                                                     >
-                                                                        ✗
+                                                                        {actionLoading === submission.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "✗"}
                                                                     </Button>
                                                                 </div>
                                                             ) : (

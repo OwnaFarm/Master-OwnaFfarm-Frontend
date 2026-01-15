@@ -240,3 +240,132 @@ export async function checkApiHealth(): Promise<boolean> {
     return false
   }
 }
+
+// ============================================
+// Admin API Functions
+// ============================================
+
+export interface FarmerDocument {
+  id: string
+  document_type: string
+  file_key: string
+  file_name: string
+  file_size: number
+  mime_type: string
+}
+
+export interface Farmer {
+  id: string
+  full_name: string
+  email: string
+  phone_number: string
+  id_number: string
+  date_of_birth: string
+  address: string
+  province: string
+  city: string
+  district: string
+  postal_code: string
+  business_name: string
+  business_type: string
+  npwp: string
+  bank_name: string
+  bank_account_number: string
+  bank_account_name: string
+  years_of_experience: number
+  crops_expertise: string[]
+  status: 'pending' | 'approved' | 'rejected'
+  documents: FarmerDocument[]
+  created_at: string
+  updated_at: string
+  reviewed_at?: string
+}
+
+export interface FarmersResponse {
+  status: string
+  data: {
+    farmers: Farmer[]
+    total: number
+    page: number
+    limit: number
+  }
+}
+
+/**
+ * Fetch all farmers (admin endpoint)
+ */
+export async function getFarmers(status?: string): Promise<Farmer[]> {
+  try {
+    const url = status && status !== 'all'
+      ? `${API_URL}/admin/farmers?status=${status}`
+      : `${API_URL}/admin/farmers`
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+
+    if (!response.ok) {
+      throw new ApiError('Failed to fetch farmers', response.status)
+    }
+
+    const result = await response.json()
+    return result.data?.farmers || result.data || []
+  } catch (error) {
+    if (error instanceof ApiError) throw error
+    throw new ApiError(
+      error instanceof Error ? error.message : 'Failed to fetch farmers'
+    )
+  }
+}
+
+/**
+ * Approve a farmer registration
+ */
+export async function approveFarmer(farmerId: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_URL}/admin/farmers/${farmerId}/approve`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}))
+      throw new ApiError(error.message || 'Failed to approve farmer', response.status)
+    }
+  } catch (error) {
+    if (error instanceof ApiError) throw error
+    throw new ApiError(
+      error instanceof Error ? error.message : 'Failed to approve farmer'
+    )
+  }
+}
+
+/**
+ * Reject a farmer registration
+ */
+export async function rejectFarmer(farmerId: string, reason?: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_URL}/admin/farmers/${farmerId}/reject`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ reason: reason || 'Rejected by admin' })
+    })
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}))
+      throw new ApiError(error.message || 'Failed to reject farmer', response.status)
+    }
+  } catch (error) {
+    if (error instanceof ApiError) throw error
+    throw new ApiError(
+      error instanceof Error ? error.message : 'Failed to reject farmer'
+    )
+  }
+}
