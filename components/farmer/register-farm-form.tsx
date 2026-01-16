@@ -1,18 +1,21 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { PersonalInfoStep } from "./steps/personal-info-step"
 import { BusinessInfoStep } from "./steps/business-info-step"
 import { DocumentsStep } from "./steps/documents-step"
 import { InvestmentStep } from "./steps/investment-step"
 import { ReviewStep } from "./steps/review-step"
-import { Check, Loader2, ExternalLink } from "lucide-react"
+import { Check, Loader2, ExternalLink, Wallet } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { registerFarmer, ApiError } from "@/lib/api"
 import { useSubmitInvoice, generateOfftakerId } from "@/hooks/use-submit-invoice"
 import { parseUnits } from "viem"
-import { useWallets } from "@privy-io/react-auth"
+import { usePrivy, useWallets } from "@privy-io/react-auth"
+import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button"
+import { useToast } from "@/components/ui/use-toast"
 
 export interface FarmerFormData {
   // Personal Info
@@ -26,6 +29,7 @@ export interface FarmerFormData {
   city: string
   district: string
   postalCode: string
+  walletAddress: string  // Connected wallet address (required by backend)
   // Business Info
   businessName: string
   businessType: string
@@ -59,6 +63,7 @@ const initialFormData: FarmerFormData = {
   city: "",
   district: "",
   postalCode: "",
+  walletAddress: "",
   businessName: "",
   businessType: "",
   npwp: "",
@@ -85,8 +90,13 @@ interface SubmitStatus {
   tokenId?: string
 }
 
+
 export function RegisterFarmForm() {
   const { t } = useI18n()
+  const router = useRouter()
+  const { toast } = useToast()
+  const { ready, authenticated } = usePrivy()
+  const { wallets } = useWallets()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FarmerFormData>(initialFormData)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -94,7 +104,6 @@ export function RegisterFarmForm() {
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({ step: 'idle', message: '' })
 
   const { submitInvoice } = useSubmitInvoice()
-  const { wallets } = useWallets()
 
   const steps = [
     { id: 1, name: t("registerFarm.steps.personalInfo") },
@@ -125,8 +134,20 @@ export function RegisterFarmForm() {
     setSubmitStatus({ step: 'backend', message: 'Submitting registration to backend...' })
 
     try {
+      // Get wallet address from connected wallet
+      const wallet = wallets[0]
+      if (!wallet?.address) {
+        throw new Error('Please connect your wallet first')
+      }
+
+      // Include wallet address in form data
+      const formDataWithWallet = {
+        ...formData,
+        walletAddress: wallet.address
+      }
+
       // Step 1: Register with backend
-      const response = await registerFarmer(formData)
+      const response = await registerFarmer(formDataWithWallet)
 
       if (!response.success) {
         throw new Error(response.message || 'Registration failed')
@@ -135,14 +156,11 @@ export function RegisterFarmForm() {
       // Step 2: Switch to Mantle Sepolia using Privy wallet
       setSubmitStatus({ step: 'nft', message: 'Switching to Mantle Sepolia network...' })
 
-      const wallet = wallets[0]
-      if (wallet) {
-        try {
-          await wallet.switchChain(5003) // Mantle Sepolia chain ID
-        } catch (switchErr) {
-          console.log('Chain switch attempt:', switchErr)
-          // Continue anyway, the wagmi hook will try to switch
-        }
+      try {
+        await wallet.switchChain(5003) // Mantle Sepolia chain ID
+      } catch (switchErr) {
+        console.log('Chain switch attempt:', switchErr)
+        // Continue anyway, the wagmi hook will try to switch
       }
 
       // Step 3: Mint NFT on blockchain
@@ -168,7 +186,18 @@ export function RegisterFarmForm() {
         tokenId: nftResult.tokenId.toString()
       })
 
+      // Show success toast
+      toast({
+        title: "🎉 Registration Successful!",
+        description: `Your farm has been registered! NFT Token #${nftResult.tokenId}`,
+      })
+
       setIsComplete(true)
+
+      // Auto-redirect to home after 3 seconds
+      setTimeout(() => {
+        router.push('/')
+      }, 3000)
     } catch (error) {
       console.error("Registration error:", error)
 
@@ -178,7 +207,7 @@ export function RegisterFarmForm() {
         if (error.statusCode === 409) {
           errorMessage = "You are already registered. Please contact support if you need assistance."
         } else if (error.statusCode === 400) {
-          errorMessage = t("registerFarm.error.validation")
+          errorMessage = error.message || t("registerFarm.error.validation")
         } else if (error.statusCode === 500) {
           errorMessage = t("registerFarm.error.server")
         } else if (error.message) {
@@ -189,6 +218,13 @@ export function RegisterFarmForm() {
       }
 
       setSubmitStatus({ step: 'error', message: errorMessage })
+
+      // Show error toast
+      toast({
+        title: "❌ Registration Failed",
+        description: errorMessage,
+        variant: "destructive",
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -230,6 +266,10 @@ export function RegisterFarmForm() {
           </div>
         )}
 
+        <p className="text-xs text-muted-foreground mb-4 animate-pulse">
+          Redirecting to home page in 3 seconds...
+        </p>
+
         <a
           href="/"
           className="pixel-button inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-primary text-primary-foreground rounded-md font-pixel uppercase hover:bg-primary/90 text-sm sm:text-base"
@@ -242,7 +282,40 @@ export function RegisterFarmForm() {
 
   return (
     <div className="pixel-border bg-card rounded-lg overflow-hidden">
-      {/* Progress Steps */}
+      {/* Wallet Connection Section */}
+      {!ready ? (
+        <div className="p-8 sm:p-12 text-center">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary animate-spin" />
+          </div>
+          <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide animate-pulse">
+            ⏳ Loading... ⏳
+          </p>
+        </div>
+      ) : !authenticated || !wallets[0]?.address ? (
+        <div className="p-8 sm:p-12 text-center">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+            <Wallet className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
+          </div>
+          <h2 className="text-lg sm:text-xl font-pixel text-foreground mb-2 sm:mb-3 uppercase">
+            🔒 Wallet Required 🔒
+          </h2>
+          <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-md mx-auto">
+            Please connect your wallet to register your farm. Your wallet address will be linked to your farmer profile.
+          </p>
+          <ConnectWalletButton />
+        </div>
+      ) : (
+        <>
+          {/* Connected Wallet Badge */}
+          <div className="bg-primary/5 border-b border-border px-4 py-3 flex items-center justify-center gap-3">
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            <span className="text-xs font-pixel text-primary uppercase tracking-wide">
+              Connected: {wallets[0]?.address ? `${wallets[0].address.slice(0, 6)}...${wallets[0].address.slice(-4)}` : 'Wallet'}
+            </span>
+          </div>
+
+          {/* Progress Steps */}
       <div className="bg-muted/30 px-3 sm:px-6 py-4 sm:py-6 border-b border-border">
         <div className="flex items-center justify-between">
           {steps.map((step, index) => (
@@ -356,6 +429,8 @@ export function RegisterFarmForm() {
           )}
         </AnimatePresence>
       </div>
+        </>
+      )}
     </div>
   )
 }

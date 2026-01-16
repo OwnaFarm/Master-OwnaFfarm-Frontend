@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans, Geist_Mono, Press_Start_2P } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { I18nProvider } from "@/lib/i18n"
 import { PrivyProviderWrapper } from "@/components/providers/privy-provider"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body className={`${plusJakarta.variable} ${geistMono.variable} ${pressStart.variable} font-sans antialiased`}>
         <PrivyProviderWrapper>
           <I18nProvider>{children}</I18nProvider>
+          <Toaster />
         </PrivyProviderWrapper>
         <Analytics />
       </body>

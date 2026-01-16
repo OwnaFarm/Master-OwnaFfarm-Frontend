@@ -6,6 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Enable Turbopack (default in Next.js 16)
+  turbopack: {},
   // Exclude test files from build
   webpack: (config, { isServer }) => {
     // Ignore test-related modules

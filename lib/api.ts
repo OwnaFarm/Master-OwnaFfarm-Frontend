@@ -3,7 +3,7 @@
  * Handles all communication with the backend API
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ownafarm-backend-production.up.railway.app'
+const API_URL = process.env.NEXT_PUBLIC_OWNA_FARM_API || 'https://ownafarm-backend-production.up.railway.app'
 
 export interface FarmerRegistrationData {
   // Personal Info
@@ -17,6 +17,7 @@ export interface FarmerRegistrationData {
   city: string
   district: string
   postalCode: string
+  walletAddress: string  // Connected wallet address
   // Business Info
   businessName: string
   businessType: string
@@ -176,20 +177,25 @@ export async function registerFarmer(
         province: data.province,
         city: data.city,
         district: data.district,
-        postal_code: data.postalCode
+        postal_code: data.postalCode,
+        wallet_address: data.walletAddress  // Required by backend
       },
       business_info: {
-        business_name: data.businessName,
+        // Optional fields: send null if empty
+        business_name: data.businessName?.trim() || null,
         business_type: data.businessType,
-        npwp: data.npwp,
+        npwp: data.npwp?.trim() || null,
         bank_name: data.bankName,
         bank_account_number: data.bankAccountNumber,
         bank_account_name: data.bankAccountName,
-        years_of_experience: parseInt(data.yearsOfExperience) || 0,
+        years_of_experience: parseInt(data.yearsOfExperience) || null,
         crops_expertise: data.cropsExpertise
       },
       documents: uploadedDocs
     }
+
+    // Debug: log the payload being sent
+    console.log('Register payload:', JSON.stringify(registerPayload, null, 2))
 
     const registerResponse = await fetch(`${API_URL}/farmers/register`, {
       method: 'POST',
@@ -201,8 +207,12 @@ export async function registerFarmer(
 
     if (!registerResponse.ok) {
       const errorData = await registerResponse.json().catch(() => ({}))
+      console.error('Registration error from backend:', {
+        status: registerResponse.status,
+        errorData
+      })
       throw new ApiError(
-        errorData.message || 'Failed to register farmer',
+        errorData.details || errorData.message || 'Failed to register farmer',
         registerResponse.status,
         errorData
       )
@@ -292,6 +302,9 @@ export interface FarmersResponse {
   }
 }
 
+// Import auth headers helper
+import { getAuthHeaders } from './admin-auth'
+
 /**
  * Fetch all farmers (admin endpoint)
  */
@@ -303,13 +316,12 @@ export async function getFarmers(status?: string): Promise<Farmer[]> {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers: getAuthHeaders()
     })
 
     if (!response.ok) {
-      throw new ApiError('Failed to fetch farmers', response.status)
+      const error = await response.json().catch(() => ({}))
+      throw new ApiError(error.message || 'Failed to fetch farmers', response.status)
     }
 
     const result = await response.json()
@@ -329,9 +341,7 @@ export async function approveFarmer(farmerId: string): Promise<void> {
   try {
     const response = await fetch(`${API_URL}/admin/farmers/${farmerId}/approve`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers: getAuthHeaders()
     })
 
     if (!response.ok) {
@@ -353,9 +363,7 @@ export async function rejectFarmer(farmerId: string, reason?: string): Promise<v
   try {
     const response = await fetch(`${API_URL}/admin/farmers/${farmerId}/reject`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ reason: reason || 'Rejected by admin' })
     })
 

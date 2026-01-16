@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import { useWallets } from '@privy-io/react-auth'
 import { useSignMessage } from 'wagmi'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ownafarm-backend-production.up.railway.app'
+const API_URL = process.env.NEXT_PUBLIC_OWNA_FARM_API || 'https://ownafarm-backend-production.up.railway.app'
 
 interface AdminAuth {
   token: string

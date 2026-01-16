@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { usePrivy } from "@privy-io/react-auth"
+import { usePrivy, useWallets } from "@privy-io/react-auth"
 import { FloatingNav } from "@/components/landing/floating-nav"
 import { MobileNav } from "@/components/landing/mobile-nav"
 import { Footer } from "@/components/landing/footer"
@@ -11,6 +11,7 @@ import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button"
 import { Filter, RefreshCw, Loader2, CheckCircle, XCircle, ExternalLink } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { getFarmers, approveFarmer, rejectFarmer, type Farmer } from "@/lib/api"
+import { performAdminLogin, isAdminAuthenticated, clearAuthToken } from "@/lib/admin-auth"
 import { useOwnaFarmContract } from "@/hooks/use-owna-farm-contract"
 
 // Map API status to display status
@@ -51,15 +52,62 @@ interface TransactionStatus {
 export default function AdminDashboard() {
     const { t } = useI18n()
     const { ready, authenticated } = usePrivy()
+    const { wallets } = useWallets()
     const [farmers, setFarmers] = useState<Farmer[]>([])
     const [filterStatus, setFilterStatus] = useState<"All" | "Pending" | "Verified" | "Rejected">("All")
     const [loading, setLoading] = useState(true)
     const [actionLoading, setActionLoading] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [txStatus, setTxStatus] = useState<TransactionStatus | null>(null)
+    const [adminLoggedIn, setAdminLoggedIn] = useState(false)
+    const [loginLoading, setLoginLoading] = useState(false)
 
     // Smart contract hook
     const { approveInvoice, rejectInvoice, waitForTransaction } = useOwnaFarmContract()
+
+    // Perform admin login with wallet signature
+    const performLogin = async () => {
+        const wallet = wallets[0]
+        if (!wallet?.address) return
+
+        setLoginLoading(true)
+        setError(null)
+
+        try {
+            // Switch to Mantle Sepolia first (required for EIP-712 signing)
+            try {
+                await wallet.switchChain(5003) // Mantle Sepolia chain ID
+            } catch (switchErr: any) {
+                console.log('Chain switch attempt:', switchErr)
+                // If switching fails, try to add the chain
+                if (switchErr?.code === 4902) {
+                    // Chain not added, could add it here if needed
+                    throw new Error('Please add Mantle Sepolia network to your wallet first')
+                }
+            }
+
+            // Get EIP1193 provider for signing
+            const provider = await wallet.getEthereumProvider()
+            
+            // Perform admin login using EIP-712 typed data signature
+            await performAdminLogin(wallet.address, async (typedData) => {
+                // Use eth_signTypedData_v4 for EIP-712 signing
+                const signature = await provider.request({
+                    method: 'eth_signTypedData_v4',
+                    params: [wallet.address, JSON.stringify(typedData)]
+                })
+                return signature as string
+            })
+
+            setAdminLoggedIn(true)
+        } catch (err: any) {
+            console.error("Admin login failed:", err)
+            setError(err?.message || "Admin login failed. Make sure your wallet is registered as admin.")
+            setAdminLoggedIn(false)
+        } finally {
+            setLoginLoading(false)
+        }
+    }
 
     // Fetch farmers from API
     const fetchFarmers = async () => {
@@ -69,19 +117,27 @@ export default function AdminDashboard() {
             const apiStatus = filterStatus === "All" ? undefined : mapToApiStatus(filterStatus)
             const data = await getFarmers(apiStatus)
             setFarmers(data)
-        } catch (err) {
+        } catch (err: any) {
             console.error("Failed to fetch farmers:", err)
-            setError("Failed to load farmers. Please try again.")
+            setError(err?.message || "Failed to load farmers. Please try again.")
         } finally {
             setLoading(false)
         }
     }
 
+    // Login when wallet connects
     useEffect(() => {
-        if (authenticated) {
+        if (authenticated && wallets[0]?.address && !adminLoggedIn && !loginLoading) {
+            performLogin()
+        }
+    }, [authenticated, wallets])
+
+    // Fetch farmers when admin is logged in
+    useEffect(() => {
+        if (adminLoggedIn) {
             fetchFarmers()
         }
-    }, [authenticated, filterStatus])
+    }, [adminLoggedIn, filterStatus])
 
     // Handle Approve: Call smart contract first, then notify backend
     const handleApprove = async (farmerId: string, tokenId?: number) => {
@@ -184,11 +240,11 @@ export default function AdminDashboard() {
         farmerName: farmer.full_name,
         businessType: businessTypeLabels[farmer.business_type] || farmer.business_type,
         description: `${farmer.crops_expertise?.join(", ") || "N/A"}`,
-        location: { district: farmer.district, city: farmer.city },
+        location: `${farmer.district}, ${farmer.city}`,
         email: farmer.email,
         phone: farmer.phone_number,
         landSize: "N/A",
-        yearsOfExperience: farmer.years_of_experience,
+        experience: `${farmer.years_of_experience} years`,
         status: mapStatus(farmer.status),
         submittedAt: new Date(farmer.created_at),
         reviewedAt: farmer.reviewed_at ? new Date(farmer.reviewed_at) : undefined
@@ -263,10 +319,24 @@ export default function AdminDashboard() {
                         <div className="pixel-border bg-card p-12 text-center rounded-lg">
                             <p className="font-pixel text-xs text-muted-foreground uppercase tracking-wide animate-pulse">⏳ Loading... ⏳</p>
                         </div>
-                    ) : !authenticated ? (
+                    ) : !authenticated || !wallets[0]?.address ? (
                         <div className="pixel-border bg-card p-12 text-center rounded-lg">
                             <p className="font-pixel text-sm text-foreground uppercase tracking-wide mb-4">🔒 Authentication Required 🔒</p>
                             <p className="text-muted-foreground text-base mb-6">Please connect your wallet to access the admin dashboard</p>
+                        </div>
+                    ) : loginLoading ? (
+                        <div className="pixel-border bg-card p-12 text-center rounded-lg">
+                            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+                            <p className="font-pixel text-sm text-foreground uppercase tracking-wide mb-4">🔐 Admin Login 🔐</p>
+                            <p className="text-muted-foreground text-base">Please sign the message in your wallet to authenticate as admin...</p>
+                        </div>
+                    ) : !adminLoggedIn ? (
+                        <div className="pixel-border bg-card p-12 text-center rounded-lg">
+                            <p className="font-pixel text-sm text-destructive uppercase tracking-wide mb-4">❌ Admin Login Failed ❌</p>
+                            <p className="text-muted-foreground text-base mb-4">{error || "Make sure your wallet address is registered as admin."}</p>
+                            <Button onClick={performLogin} variant="outline" className="pixel-button">
+                                Try Again
+                            </Button>
                         </div>
                     ) : (
                         <>
@@ -353,8 +423,7 @@ export default function AdminDashboard() {
                                                         </td>
                                                         <td className="p-4 hidden md:table-cell">
                                                             <div className="text-sm text-muted-foreground">
-                                                                <p>{submission.location.district}</p>
-                                                                <p>{submission.location.city}</p>
+                                                                <p>{submission.location}</p>
                                                             </div>
                                                         </td>
                                                         <td className="p-4 hidden lg:table-cell">
