@@ -139,29 +139,31 @@ export default function AdminDashboard() {
         }
     }, [adminLoggedIn, filterStatus])
 
-    // Handle Approve: Call smart contract first, then notify backend
+    // Handle Approve: If tokenId exists, call smart contract first; otherwise just update backend
     const handleApprove = async (farmerId: string, tokenId?: number) => {
-        if (!tokenId) {
-            alert("Token ID not available for this farmer. Please ensure the farmer has submitted an invoice.")
-            return
-        }
-
         setActionLoading(farmerId)
-        setTxStatus({ type: 'pending', message: 'Waiting for wallet confirmation...' })
 
         try {
-            // Step 1: Call smart contract
-            setTxStatus({ type: 'pending', message: 'Signing transaction...' })
-            const hash = await approveInvoice(BigInt(tokenId))
+            // If tokenId exists, perform blockchain transaction first
+            if (tokenId) {
+                setTxStatus({ type: 'pending', message: 'Waiting for wallet confirmation...' })
 
-            setTxStatus({ type: 'confirming', message: 'Waiting for confirmation...', hash })
+                // Step 1: Call smart contract
+                setTxStatus({ type: 'pending', message: 'Signing transaction...' })
+                const hash = await approveInvoice(BigInt(tokenId))
 
-            // Step 2: Wait for transaction to be mined
-            await waitForTransaction(hash)
+                setTxStatus({ type: 'confirming', message: 'Waiting for confirmation...', hash })
 
-            setTxStatus({ type: 'success', message: 'Transaction confirmed!', hash })
+                // Step 2: Wait for transaction to be mined
+                await waitForTransaction(hash)
 
-            // Step 3: Notify backend
+                setTxStatus({ type: 'success', message: 'Transaction confirmed!', hash })
+            } else {
+                // No tokenId - just show backend-only status
+                setTxStatus({ type: 'pending', message: 'Approving registration...' })
+            }
+
+            // Step 3: Notify backend (always)
             await approveFarmer(farmerId)
 
             // Update local state
@@ -173,12 +175,16 @@ export default function AdminDashboard() {
                 )
             )
 
+            setTxStatus({ 
+                type: 'success', 
+                message: tokenId ? 'Approval confirmed on blockchain!' : 'Registration approved!' 
+            })
             setTimeout(() => setTxStatus(null), 3000)
         } catch (err: any) {
             console.error("Failed to approve farmer:", err)
             setTxStatus({
                 type: 'error',
-                message: err?.shortMessage || err?.message || 'Transaction failed'
+                message: err?.shortMessage || err?.message || 'Approval failed'
             })
             setTimeout(() => setTxStatus(null), 5000)
         } finally {
@@ -186,29 +192,31 @@ export default function AdminDashboard() {
         }
     }
 
-    // Handle Reject: Call smart contract first, then notify backend
+    // Handle Reject: If tokenId exists, call smart contract first; otherwise just update backend
     const handleReject = async (farmerId: string, tokenId?: number) => {
-        if (!tokenId) {
-            alert("Token ID not available for this farmer. Please ensure the farmer has submitted an invoice.")
-            return
-        }
-
         setActionLoading(farmerId)
-        setTxStatus({ type: 'pending', message: 'Waiting for wallet confirmation...' })
 
         try {
-            // Step 1: Call smart contract
-            setTxStatus({ type: 'pending', message: 'Signing transaction...' })
-            const hash = await rejectInvoice(BigInt(tokenId))
+            // If tokenId exists, perform blockchain transaction first
+            if (tokenId) {
+                setTxStatus({ type: 'pending', message: 'Waiting for wallet confirmation...' })
 
-            setTxStatus({ type: 'confirming', message: 'Waiting for confirmation...', hash })
+                // Step 1: Call smart contract
+                setTxStatus({ type: 'pending', message: 'Signing transaction...' })
+                const hash = await rejectInvoice(BigInt(tokenId))
 
-            // Step 2: Wait for transaction to be mined
-            await waitForTransaction(hash)
+                setTxStatus({ type: 'confirming', message: 'Waiting for confirmation...', hash })
 
-            setTxStatus({ type: 'success', message: 'Transaction confirmed!', hash })
+                // Step 2: Wait for transaction to be mined
+                await waitForTransaction(hash)
 
-            // Step 3: Notify backend
+                setTxStatus({ type: 'success', message: 'Transaction confirmed!', hash })
+            } else {
+                // No tokenId - just show backend-only status
+                setTxStatus({ type: 'pending', message: 'Rejecting registration...' })
+            }
+
+            // Step 3: Notify backend (always)
             await rejectFarmer(farmerId)
 
             // Update local state
@@ -220,12 +228,16 @@ export default function AdminDashboard() {
                 )
             )
 
+            setTxStatus({ 
+                type: 'success', 
+                message: tokenId ? 'Rejection confirmed on blockchain!' : 'Registration rejected!' 
+            })
             setTimeout(() => setTxStatus(null), 3000)
         } catch (err: any) {
             console.error("Failed to reject farmer:", err)
             setTxStatus({
                 type: 'error',
-                message: err?.shortMessage || err?.message || 'Transaction failed'
+                message: err?.shortMessage || err?.message || 'Rejection failed'
             })
             setTimeout(() => setTxStatus(null), 5000)
         } finally {
@@ -454,9 +466,9 @@ export default function AdminDashboard() {
                                                                     <Button
                                                                         onClick={() => handleApprove(submission.id, submission.tokenId)}
                                                                         size="sm"
-                                                                        disabled={actionLoading === submission.id || !submission.tokenId}
+                                                                        disabled={actionLoading === submission.id}
                                                                         className="pixel-button bg-primary text-primary-foreground hover:bg-primary/90 font-pixel text-[10px] rounded-md px-3 py-1"
-                                                                        title={!submission.tokenId ? "Token ID required" : "Approve"}
+                                                                        title={!submission.tokenId ? "Approve (backend only)" : "Approve"}
                                                                     >
                                                                         {actionLoading === submission.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "✓"}
                                                                     </Button>
@@ -464,9 +476,9 @@ export default function AdminDashboard() {
                                                                         onClick={() => handleReject(submission.id, submission.tokenId)}
                                                                         size="sm"
                                                                         variant="destructive"
-                                                                        disabled={actionLoading === submission.id || !submission.tokenId}
+                                                                        disabled={actionLoading === submission.id}
                                                                         className="pixel-button font-pixel text-[10px] rounded-md px-3 py-1"
-                                                                        title={!submission.tokenId ? "Token ID required" : "Reject"}
+                                                                        title={!submission.tokenId ? "Reject (backend only)" : "Reject"}
                                                                     >
                                                                         {actionLoading === submission.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "✗"}
                                                                     </Button>

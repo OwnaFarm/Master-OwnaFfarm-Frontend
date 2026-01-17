@@ -6,23 +6,60 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Enable Turbopack (default in Next.js 16)
-  turbopack: {},
-  // Exclude test files from build
+  // Mark problematic Node.js packages as external for server
+  serverExternalPackages: [
+    'pino',
+    'pino-pretty',
+    'thread-stream',
+    '@walletconnect/logger',
+  ],
+  // Enable Turbopack with resolver aliases for problematic modules
+  turbopack: {
+    resolveAlias: {
+      'why-is-node-running': { browser: '' },
+      'thread-stream': { browser: '' },
+      'pino-pretty': { browser: '' },
+      'pino-worker': { browser: '' },
+      tap: { browser: '' },
+      desm: { browser: '' },
+    },
+  },
+  // Webpack config fallback (for non-turbopack builds)
   webpack: (config, { isServer }) => {
-    // Ignore test-related modules
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      tap: false,
-      desm: false,
+    if (!isServer) {
+      // Provide fallbacks for Node.js modules in client bundle
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: false,
+        path: false,
+        os: false,
+        stream: false,
+        http: false,
+        https: false,
+        zlib: false,
+        'why-is-node-running': false,
+        'thread-stream': false,
+        'pino-pretty': false,
+        'pino-worker': false,
+        'pino': false,
+        tap: false,
+        desm: false,
+      }
     }
 
-    // Exclude test files from bundling
+    // Exclude test files from bundling  
     config.module = config.module || {}
     config.module.rules = config.module.rules || []
     config.module.rules.push({
+      test: /node_modules[\\/].*[\\/]test[\\/].*\.(js|mjs|ts|tsx)$/,
+      use: 'null-loader',
+    })
+    config.module.rules.push({
       test: /\.test\.(js|mjs|ts|tsx)$/,
-      loader: 'ignore-loader',
+      use: 'null-loader',
     })
 
     return config
